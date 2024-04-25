@@ -14,16 +14,11 @@ namespace CH_ERP_WpfApp
     {
         protected override Window CreateShell()
         {
-            var mainWin = Container.Resolve<MainWindow>();
-
-            mainWin.DataContext = new MainWinViewModel(Container.Resolve<IRegionManager>());
-            return mainWin;
+            return Container.Resolve<MainWindow>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.RegisterForNavigation<CH_PurchaseWpfModule.PurchaseWpfModule>();
-            //containerRegistry.RegisterForNavigation<CH_OrderWpfModule.OrderWpfModule>();
 
         }
 

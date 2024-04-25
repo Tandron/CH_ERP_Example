@@ -7,8 +7,11 @@
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:MainWinViewModel, IsDesignTimeCreatable=False}"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded" DataContextChanged="Window_DataContextChanged">
+    <Window.DataContext>
+        <vm:MainWinViewModel/>
+    </Window.DataContext>
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <ContentControl prism:RegionManager.RegionName="{Binding MainRegion}" />
     </Grid>
 </Window>
