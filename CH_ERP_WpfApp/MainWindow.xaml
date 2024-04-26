@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:CH_ERP_WpfApp.ViewModels"
+        xmlns:views="clr-namespace:CH_ERP_WpfApp.Views"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=vm:MainWinViewModel, IsDesignTimeCreatable=False}"
@@ -12,6 +13,11 @@
         <vm:MainWinViewModel/>
     </Window.DataContext>
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="{Binding MainRegion}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <views:NavigationBar Grid.Column="0" DataContext="{Binding NavigationBarVm,Mode=OneTime}"/>
+        <ContentControl Grid.Column="1" prism:RegionManager.RegionName="{Binding MainRegion}" />
     </Grid>
 </Window>

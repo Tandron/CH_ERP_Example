@@ -9,10 +9,11 @@ namespace CH_ERP_WpfApp.ViewModels
         private string _title = "Prism Unity Application";
         public string MainRegion { get; } = "ContentRegion";
         public event Action<string, string> OnRegionChanged = delegate { };
+        public NavigationBarViewModel NavigationBarVm { get; }
 
         public MainWinViewModel()
         {
-            
+            NavigationBarVm = new NavigationBarViewModel((moduleRegion) => OnRegionChanged(MainRegion, moduleRegion));
         }
 
         public string Title

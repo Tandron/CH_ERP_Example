@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="CH_ERP_WpfApp.Views.NavigationBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:CH_ERP_WpfApp.ViewModels"
+             xmlns:views="clr-namespace:CH_ERP_WpfApp.Views"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:NavigationBarViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+        <views:NavButton Content="Annehmen 👍" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
+                         ActiveModuleMainView="{Binding ActiveModuleView}"/>
+        <views:NavButton Content="Ausstellen 🖨" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
+                         ActiveModuleMainView="{Binding ActiveModuleView}"/>
+    </StackPanel>
+</UserControl>

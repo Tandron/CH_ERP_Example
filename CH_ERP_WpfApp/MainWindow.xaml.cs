@@ -21,7 +21,7 @@ namespace CH_ERP_WpfApp
         {
             if (DataContext is MainWinViewModel mainWinVm)
             {
-                mainWinVm.SetRegion();
+                //mainWinVm.SetRegion();
             }
         }
 
