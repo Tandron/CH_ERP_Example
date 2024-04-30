@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CH_ERP_WpfApp.Views
 {
@@ -23,6 +11,16 @@ namespace CH_ERP_WpfApp.Views
         public NavigationBar()
         {
             InitializeComponent();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            object resource = TryFindResource("actuelWidth");
+            // If resource found, do something with it
+            if (resource is double actuelWidth)
+            {
+                actuelWidth = ActualWidth;
+            }
         }
     }
 }
