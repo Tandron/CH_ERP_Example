@@ -66,6 +66,11 @@ namespace CH_ERP_WpfApp
         {
             WindowState = WindowState.Minimized;
         }
+
+        private void NavigationBar_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
         // End: Button Close | Restore | Minimize
     }
 }

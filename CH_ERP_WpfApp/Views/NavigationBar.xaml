@@ -5,23 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:CH_ERP_WpfApp.ViewModels"
              xmlns:customCon="clr-namespace:CH_ERP_WpfApp.CustomControl"
-             mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" HorizontalAlignment="Left"
+             mc:Ignorable="d" Width="{Binding ElementName=GridNav, Path=ActualWidth}"
              d:DataContext="{d:DesignInstance Type=vm:NavigationBarViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        
-
-   
-
-    
+        <sys:Double x:Key="actuelWidth">250</sys:Double>
     </UserControl.Resources>
-    <StackPanel>
-        <customCon:NavButton Content="Annehmen 👍" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
-                             ActiveModuleMainView="{Binding ActiveModuleView}"/>
-        <customCon:NavButton Content="Ausstellen 🖨" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
-                             ActiveModuleMainView="{Binding ActiveModuleView}"/>
 
-        <!--<Button Style="{StaticResource StandardButton}" Content="TestBorder Button" FontSize="20" Margin="4"/>-->
-        
-    </StackPanel>
+    <Border Background="{DynamicResource SecundaryBackgroundColor}" CornerRadius="8 0 0 8">
+        <Grid x:Name="GridNav">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ToggleButton Grid.Row="0" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}"
+                      HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Margin="10,15,0,15" Height="30" Width="30">
+                <ToggleButton.Triggers>
+                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width"
+                                                     BeginTime="0:0:0" From="{StaticResource actuelWidth}" To="60" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width"
+                                                     BeginTime="0:0:0" From="60" To="{StaticResource actuelWidth}" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ToggleButton.Triggers>
+            </ToggleButton>
+            <StackPanel Grid.Row="1">
+                <customCon:NavButton Content="👍 Einkauf" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
+                                         ActiveModuleMainView="{Binding ActiveModuleView}"/>
+                <customCon:NavButton Content="🖨 Bestellung" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
+                                         ActiveModuleMainView="{Binding ActiveModuleView}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

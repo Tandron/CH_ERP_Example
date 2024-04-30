@@ -22,12 +22,13 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <views:NavigationBar Grid.Column="0" Grid.RowSpan="2" DataContext="{Binding NavigationBarVm,Mode=OneTime}"/>
+            <views:NavigationBar Grid.Column="0" Grid.RowSpan="2" DataContext="{Binding NavigationBarVm,Mode=OneTime}"
+                                 SizeChanged="NavigationBar_SizeChanged"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" Text="{Binding Title, ElementName=this}" TextAlignment="Center"
                        MouseDown="Window_MouseDown" Margin="0,5" Cursor="Hand" FontWeight="DemiBold"/>
             <!-- Start: Button Close | Restore | Minimize -->
