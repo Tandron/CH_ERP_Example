@@ -9,178 +9,19 @@
              d:DataContext="{d:DesignInstance Type=vm:NavigationBarViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ControlTemplate x:Key="ButtonControlTemplate1"
-                         TargetType="{x:Type Button}">
-            <Grid Width="180">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="10" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Border x:Name="LabelSection"
-                        Grid.Column="1"
-                        Grid.Row="1"
-                        Margin="-20 0 0 0"
-                        Background="#FFD4D4D4"
-                        BorderThickness="4"
-                        BorderBrush="White"
-                        CornerRadius="5">
-                    <Label Content="{Binding Content,RelativeSource={RelativeSource AncestorType=Button}}"
-                           Foreground="Blue"
-                           Margin="20 0 0 0" 
-                           VerticalAlignment="Center"/>
-                </Border>
-                <Border x:Name="ImageSection"
-                        Grid.Row="0"
-                        Grid.RowSpan="3"
-                        Background="#FFD4D4D4"
-                        BorderThickness="4"
-                        BorderBrush="White"
-                        CornerRadius="25"
-                        Width="50"
-                        Height="50">
-                    <Image Source="man15.png"
-                           Height="35" />
-                </Border>
-            </Grid>
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver"
-                         Value="true">
-                    <Setter TargetName="ImageSection"
-                            Property="Background"
-                            Value="lightGreen" />
-                    <Setter TargetName="LabelSection"
-                            Property="Background"
-                            Value="lightGreen" />
-                    <Setter TargetName="ImageSection"
-                            Property="BorderBrush"
-                            Value="BurlyWood" />
-                    <Setter TargetName="LabelSection"
-                            Property="BorderBrush"
-                            Value="BurlyWood" />
-                </Trigger>
-                <Trigger Property="IsPressed"
-                         Value="true">
-                    <Setter TargetName="ImageSection"
-                            Property="Background"
-                            Value="Yellow" />
-                    <Setter TargetName="LabelSection"
-                            Property="Background"
-                            Value="Yellow" />
-                </Trigger>
-
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
         
-        
-        <!-- Standard Button Colors-->
-        <SolidColorBrush x:Key="StandardButtonBackground" Color="#1C536F" />
-        <SolidColorBrush x:Key="StandardButtonForeground" Color="#FEFEFE" />
-        <SolidColorBrush x:Key="StandardButtonHighlight" Color="GreenYellow" />
-        <!-- Standard Button Template-->
-        <Style x:Key="StandardButton" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource StandardButtonBackground}" />
-            <Setter Property="Foreground" Value="{StaticResource StandardButtonForeground}" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="15"
-                                Background="{TemplateBinding Background}">
-                            <Border Margin="5" BorderThickness="2" BorderBrush="{StaticResource StandardButtonHighlight}"
-                                CornerRadius="15">
-                                <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
-                            </Border>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DarkGoldenrod"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
 
-        <!-- https://stackoverflow.com/questions/20073294/change-color-of-button-when-mouse-is-over -->
+   
 
-        <Style x:Key="specificStyle" TargetType="{x:Type customCon:NavButton}">
-            <Setter Property="Background" Value="Black"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <!--<Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type customCon:NavButton}">
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Coral"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>-->
-            <!--<Setter Property="BorderBrush" Value="Beige"/>-->
-            <Style.Triggers>
-                <Trigger Property="IsChecked" Value="true">
-                    <Setter Property="Foreground" Value="Red"/>
-                    <Setter Property="Background" Value="Red"/>
-                    <Setter Property="TextElement.Background" Value="BurlyWood"/>
-                    <Setter Property="Canvas.Background" Value="Coral"/>
-                    <Setter Property="Block.Background" Value="Coral"/>
-                    <Setter Property="Selector.Background" Value="Coral"/>
-                    <Setter Property="TextBlock.Background" Value="Coral"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Trigger.Setters>
-                        <Setter Property="Background" Value="Coral"/>
-                        <Setter Property="BorderBrush" Value="BurlyWood"/>
-                        <Setter Property="Canvas.Background" Value="Coral"/>
-                        <Setter Property="Block.Background" Value="Coral"/>
-                        <Setter Property="Selector.BorderBrush" Value="Coral"/>
-                        <Setter Property="TextBlock.Background" Value="Coral"/>
-                    </Trigger.Setters>
-                </Trigger>
-            </Style.Triggers>
-
-        </Style>
+    
     </UserControl.Resources>
     <StackPanel>
         <customCon:NavButton Content="Annehmen 👍" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
-                             ActiveModuleMainView="{Binding ActiveModuleView}" Style="{StaticResource specificStyle}"/>
+                             ActiveModuleMainView="{Binding ActiveModuleView}"/>
         <customCon:NavButton Content="Ausstellen 🖨" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
-                             ActiveModuleMainView="{Binding ActiveModuleView}" Style="{StaticResource specificStyle}"/>
- 
-        <Button Content="Button" Height="30" Margin="4">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="Green"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}" CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="DarkGoldenrod"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+                             ActiveModuleMainView="{Binding ActiveModuleView}"/>
 
-        <Button Style="{StaticResource StandardButton}" Content="TestBorder Button" FontSize="20" Margin="4"/>
-
-        <Button Content="Button1" Template="{StaticResource ButtonControlTemplate1}" FontSize="20" Margin="4"
-                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <!--<Button Style="{StaticResource StandardButton}" Content="TestBorder Button" FontSize="20" Margin="4"/>-->
+        
     </StackPanel>
 </UserControl>

@@ -24,8 +24,8 @@ namespace CH_ERP_WpfApp.CustomControl
         public static readonly DependencyProperty ModuleCommandProperty =
             DependencyProperty.Register("ModuleCommand", typeof(ICommand), typeof(NavButton));
 
-        public new static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(object), typeof(NavButton));
+        //public new static readonly DependencyProperty ContentProperty =
+        //    DependencyProperty.Register("Content", typeof(object), typeof(NavButton));
 
         public static readonly DependencyProperty ImageContentProperty =
             DependencyProperty.Register("ImageContent", typeof(Image), typeof(NavButton));
@@ -66,11 +66,11 @@ namespace CH_ERP_WpfApp.CustomControl
                 navButton.IsChecked = navButton.ModuleMainView == moduleViews;
         }
 
-        public new object Content
-        {
-            get => (object)GetValue(ContentProperty);
-            set => SetValue(ContentProperty, value);
-        }
+        //public new object Content
+        //{
+        //    get => (object)GetValue(ContentProperty);
+        //    set => SetValue(ContentProperty, value);
+        //}
 
         public Image ImageContent
         {
