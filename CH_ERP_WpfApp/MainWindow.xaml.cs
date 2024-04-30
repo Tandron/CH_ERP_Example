@@ -1,6 +1,7 @@
 ﻿using CH_ERP_WpfApp.ViewModels;
 using Prism.Regions;
 using System.Windows;
+using System.Windows.Input;
 
 namespace CH_ERP_WpfApp
 {
@@ -40,5 +41,31 @@ namespace CH_ERP_WpfApp
         {
             _regionManager.RequestNavigate(mainRegion, moduleRegion);
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs args)
+        {
+            if (args.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
+
+        // Start: Button Close | Restore | Minimize 
+        private void BtnClose_Click(object sender, RoutedEventArgs args)
+        {
+            Close();
+        }
+
+        private void BtnRestore_Click(object sender, RoutedEventArgs args)
+        {
+            if (WindowState == WindowState.Normal)
+                WindowState = WindowState.Maximized;
+            else
+                WindowState = WindowState.Normal;
+        }
+
+        private void BtnMinimize_Click(object sender, RoutedEventArgs args)
+        {
+            WindowState = WindowState.Minimized;
+        }
+        // End: Button Close | Restore | Minimize
     }
 }

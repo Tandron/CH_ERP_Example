@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="OrderMainControl View A" FontSize="38" />
+        <TextBlock Foreground="White" Text="OrderMainControl View A" FontSize="38" />
     </Grid>
 </UserControl>

@@ -4,6 +4,16 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:CH_ERP_WpfApp">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
+
+                <ResourceDictionary Source="Assets/Icons.xaml"/>
+
+                <ResourceDictionary Source="Styles/MainStyle.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

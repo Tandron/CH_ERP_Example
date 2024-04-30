@@ -11,6 +11,6 @@
         <vm:PurchaseMainViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="PurchaseMainControl View A" FontSize="38" />
+        <TextBlock Foreground="White" Text="PurchaseMainControl View A" FontSize="38" />
     </Grid>
 </UserControl>
