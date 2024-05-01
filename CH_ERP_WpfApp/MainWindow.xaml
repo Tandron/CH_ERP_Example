@@ -51,7 +51,8 @@
             </StackPanel>
             <!-- End: Button Close | Restore | Minimize -->
 
-            <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="{Binding MainRegion}"/>
+            <ContentControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                            prism:RegionManager.RegionName="{Binding MainRegion}"/>
             <StatusBar Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="Transparent">
                 <TextBlock Text="© Copyright by Christian Hanisch" FontSize="16" Margin="0,5"
                            Foreground="White" FontWeight="DemiBold" TextAlignment="Center"/>

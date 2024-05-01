@@ -10,12 +10,15 @@
     <UserControl.DataContext>
         <vm:PurchaseMainViewModel/>
     </UserControl.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Foreground="White" Text="Einkauf" FontSize="20" TextAlignment="Center" />
-        <chDataGrid:CH_DataGrid Grid.Row="1"/>
-    </Grid>
+    <GroupBox Header="Einkauf" TextBlock.Foreground="White" TextBlock.FontSize="20"
+              Background="{DynamicResource SecundaryBackgroundColor}">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <!--<RowDefinition Height="Auto"/>-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<TextBlock Grid.Row="0" Foreground="White" Text="Einkauf" FontSize="20" TextAlignment="Center" />-->
+            <chDataGrid:CH_DataGrid Grid.Row="0"/>
+        </Grid>
+    </GroupBox>
 </UserControl>
