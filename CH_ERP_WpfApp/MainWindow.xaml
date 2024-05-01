@@ -8,7 +8,7 @@
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d" MinWidth="500" MinHeight="400"
         d:DataContext="{d:DesignInstance Type=vm:MainWinViewModel, IsDesignTimeCreatable=False}"
-        Title="CH_ERP_Example" Loaded="Window_Loaded" DataContextChanged="Window_DataContextChanged"
+        Title="CH_ERP_Example" DataContextChanged="Window_DataContextChanged"
         Height="650" Width="1000" Background="Transparent" AllowsTransparency="True" Name="this"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip">
     <Window.DataContext>
@@ -27,8 +27,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <views:NavigationBar Grid.Column="0" Grid.RowSpan="2" DataContext="{Binding NavigationBarVm,Mode=OneTime}"
-                                 SizeChanged="NavigationBar_SizeChanged"/>
+            <views:NavigationBar Grid.Column="0" Grid.RowSpan="2" DataContext="{Binding NavigationBarVm,Mode=OneTime}"/>
             <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" Text="{Binding Title, ElementName=this}" TextAlignment="Center"
                        MouseDown="Window_MouseDown" Margin="0,5" Cursor="Hand" FontWeight="DemiBold"/>
             <!-- Start: Button Close | Restore | Minimize -->
@@ -52,8 +51,8 @@
             </StackPanel>
             <!-- End: Button Close | Restore | Minimize -->
 
-            <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="{Binding MainRegion}" />
-            <StatusBar Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" Background="Transparent">
+            <ContentControl Grid.Row="1" Grid.Column="1" prism:RegionManager.RegionName="{Binding MainRegion}"/>
+            <StatusBar Grid.Row="2" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="3" Background="Transparent">
                 <TextBlock Text="© Copyright by Christian Hanisch" FontSize="16" Margin="0,5"
                            Foreground="White" FontWeight="DemiBold" TextAlignment="Center"/>
             </StatusBar>

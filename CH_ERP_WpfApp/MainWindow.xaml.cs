@@ -18,14 +18,6 @@ namespace CH_ERP_WpfApp
             _regionManager = regionManager;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs args)
-        {
-            if (DataContext is MainWinViewModel mainWinVm)
-            {
-                //mainWinVm.SetRegion();
-            }
-        }
-
         private void Window_DataContextChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
             if (args.NewValue is MainWinViewModel mainWinVm)
@@ -65,11 +57,6 @@ namespace CH_ERP_WpfApp
         private void BtnMinimize_Click(object sender, RoutedEventArgs args)
         {
             WindowState = WindowState.Minimized;
-        }
-
-        private void NavigationBar_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
         }
         // End: Button Close | Restore | Minimize
     }
