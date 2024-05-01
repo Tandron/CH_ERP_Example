@@ -11,12 +11,4 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CH_WpfControls\CH_WpfControls.csproj" />
-  </ItemGroup>
-
 </Project>
