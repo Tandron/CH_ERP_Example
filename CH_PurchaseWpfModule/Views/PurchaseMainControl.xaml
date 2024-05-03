@@ -7,9 +7,6 @@
              xmlns:chDataGrid="clr-namespace:CH_WpfControls.CH_DataGrid;assembly=CH_WpfControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <vm:PurchaseMainViewModel/>
-    </UserControl.DataContext>
     <GroupBox Header="Einkauf" TextBlock.Foreground="White" TextBlock.FontSize="20"
               Background="{DynamicResource SecundaryBackgroundColor}">
         <Grid Margin="10">

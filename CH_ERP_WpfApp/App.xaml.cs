@@ -1,7 +1,7 @@
 ﻿using CH_ERP_WpfApp.ViewModels;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
 
@@ -14,7 +14,10 @@ namespace CH_ERP_WpfApp
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            var mainWin = Container.Resolve<MainWindow>();
+
+            mainWin.DataContext = new MainWinViewModel(Container.Resolve<IEventAggregator>());
+            return mainWin;
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

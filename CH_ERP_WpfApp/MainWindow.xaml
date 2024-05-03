@@ -11,9 +11,6 @@
         Title="CH_ERP_Example" DataContextChanged="Window_DataContextChanged"
         Height="650" Width="1000" Background="Transparent" AllowsTransparency="True" Name="this"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip">
-    <Window.DataContext>
-        <vm:MainWinViewModel/>
-    </Window.DataContext>
     <Border Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="8">
         <Grid>
             <Grid.RowDefinitions>

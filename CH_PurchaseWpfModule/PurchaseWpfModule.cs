@@ -10,6 +10,7 @@ namespace CH_PurchaseWpfModule
         public void OnInitialized(IContainerProvider containerProvider)
         {
             var regionManager = containerProvider.Resolve<IRegionManager>();
+
             regionManager.RegisterViewWithRegion("ContentRegion", typeof(PurchaseMainControl));
         }
 
@@ -18,5 +19,4 @@ namespace CH_PurchaseWpfModule
             containerRegistry.RegisterForNavigation<PurchaseMainControl>();
         }
     }
-
 }

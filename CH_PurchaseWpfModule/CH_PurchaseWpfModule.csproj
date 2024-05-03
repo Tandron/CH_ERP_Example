@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CH_WpfControls\CH_WpfControls.csproj" />
+    <ProjectReference Include="..\UsingEventAggregator.Core\UsingEventAggregator.Core.csproj" />
   </ItemGroup>
 
 </Project>

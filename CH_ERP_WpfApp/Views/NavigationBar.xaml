@@ -18,6 +18,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
             <ToggleButton Grid.Row="0" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}" IsChecked="True"
@@ -47,6 +48,7 @@
                 <customCon:NavButton Content="🖨 Bestellung" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
                                      ActiveModuleMainView="{Binding ActiveModuleView}"/>
             </StackPanel>
+            <customCon:ErpModeButton Grid.Row="2" Content="{Binding StrErpMode}" ErpModeView="{Binding EditMode}"/>
         </Grid>
     </Border>
 </UserControl>

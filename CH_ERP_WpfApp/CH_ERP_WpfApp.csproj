@@ -21,6 +21,7 @@
     <ProjectReference Include="..\ASP.NetCoreAPI\ASP.NetCoreAPI.csproj" />
     <ProjectReference Include="..\CH_OrderWpfModule\CH_OrderWpfModule.csproj" />
     <ProjectReference Include="..\CH_PurchaseWpfModule\CH_PurchaseWpfModule.csproj" />
+    <ProjectReference Include="..\UsingEventAggregator.Core\UsingEventAggregator.Core.csproj" />
   </ItemGroup>
 
 </Project>

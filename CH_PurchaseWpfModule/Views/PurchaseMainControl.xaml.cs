@@ -1,4 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using CH_PurchaseWpfModule.ViewModels;
+using Prism;
+using Prism.Events;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace CH_PurchaseWpfModule.Views
 {
@@ -7,9 +12,11 @@ namespace CH_PurchaseWpfModule.Views
     /// </summary>
     public partial class PurchaseMainControl : UserControl
     {
-        public PurchaseMainControl()
+
+        public PurchaseMainControl(IEventAggregator eventAggregator)
         {
             InitializeComponent();
+            DataContext = new PurchaseMainViewModel(eventAggregator);
         }
     }
 }

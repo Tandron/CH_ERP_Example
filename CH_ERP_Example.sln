@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CH_PurchaseWpfModule", "CH_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CH_OrderWpfModule", "CH_OrderWpfModule\CH_OrderWpfModule.csproj", "{58C38A10-42B8-4E62-B790-AD5FD1B780DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CH_WpfControls", "CH_WpfControls\CH_WpfControls.csproj", "{4F68117C-A1C2-4ED5-9E6A-F9F1162711FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CH_WpfControls", "CH_WpfControls\CH_WpfControls.csproj", "{4F68117C-A1C2-4ED5-9E6A-F9F1162711FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingEventAggregator.Core", "UsingEventAggregator.Core\UsingEventAggregator.Core.csproj", "{1E318B9D-A3C8-4A66-930D-495A7D1D2702}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +45,10 @@ Global
 		{4F68117C-A1C2-4ED5-9E6A-F9F1162711FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F68117C-A1C2-4ED5-9E6A-F9F1162711FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F68117C-A1C2-4ED5-9E6A-F9F1162711FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E318B9D-A3C8-4A66-930D-495A7D1D2702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E318B9D-A3C8-4A66-930D-495A7D1D2702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E318B9D-A3C8-4A66-930D-495A7D1D2702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E318B9D-A3C8-4A66-930D-495A7D1D2702}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{6F8B9E23-3A70-4BA7-8118-79019AC33A6D} = {8DCA1728-39B4-41D6-A934-DD96DB2CFB3D}
 		{58C38A10-42B8-4E62-B790-AD5FD1B780DA} = {8DCA1728-39B4-41D6-A934-DD96DB2CFB3D}
 		{4F68117C-A1C2-4ED5-9E6A-F9F1162711FF} = {398ACE2E-2546-4916-8E70-914BB89996F7}
+		{1E318B9D-A3C8-4A66-930D-495A7D1D2702} = {398ACE2E-2546-4916-8E70-914BB89996F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9EA8C30-0AD7-43BC-B607-835FB687427E}
