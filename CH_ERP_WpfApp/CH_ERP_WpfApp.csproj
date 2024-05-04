@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\icons8-voller-einkaufswagen-94.png" />
+    <None Remove="Images\icons8-bill-94.png" />
+    <None Remove="Images\icons8-expand-64.png" />
+    <None Remove="Images\icons8-full-purchase-94.png" />
+    <None Remove="Images\icons8-order-50.png" />
+    <None Remove="Images\icons8-shopping-cart-94.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +33,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\icons8-voller-einkaufswagen-94.png" />
+    <Resource Include="Images\icons8-bill-94.png" />
+    <Resource Include="Images\icons8-expand-64.png" />
+    <Resource Include="Images\icons8-full-purchase-94.png" />
+    <Resource Include="Images\icons8-order-50.png" />
+    <Resource Include="Images\icons8-shopping-cart-94.png" />
   </ItemGroup>
 
 </Project>

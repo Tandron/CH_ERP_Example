@@ -25,9 +25,10 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
-            <ToggleButton Grid.Row="0" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}" IsChecked="True" x:Name="toggleBtnIsExpand"
-                          HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Width="40" Margin="10,0,0,0"
+            <ToggleButton Grid.Row="0" VerticalAlignment="Center" IsChecked="True" x:Name="toggleBtnIsExpand"
+                          HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Margin="4"
                           Checked="ToggleBtnIsExpand_Checked">
+                <Image Source="/Images/icons8-expand-64.png"/>
                 <ToggleButton.Triggers>
                     <EventTrigger RoutedEvent="ToggleButton.Unchecked">
                         <BeginStoryboard>
@@ -60,9 +61,10 @@
             <views:NavButtonStackPanel Grid.Row="1" x:Name="navBtnStackpan">
                 <customCon:NavButton Content="Einkauf" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
                                      ActiveModuleMainView="{Binding ActiveModuleView}"
-                                     ImageUri="/Images/icons8-voller-einkaufswagen-94.png" />
+                                     ImageUri="/Images/icons8-full-purchase-94.png"/>
                 <customCon:NavButton Content="Bestellung" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
-                                     ActiveModuleMainView="{Binding ActiveModuleView}"/>
+                                     ActiveModuleMainView="{Binding ActiveModuleView}"
+                                     ImageUri="/Images/icons8-order-50.png"/>
             </views:NavButtonStackPanel>
             <customCon:ErpModeButton Grid.Row="2" Content="{Binding StrErpMode}" ErpModeView="{Binding EditMode}"/>
         </Grid>
