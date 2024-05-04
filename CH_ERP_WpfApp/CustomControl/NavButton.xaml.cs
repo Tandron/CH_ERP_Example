@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace CH_ERP_WpfApp.CustomControl
 {
@@ -32,14 +33,15 @@ namespace CH_ERP_WpfApp.CustomControl
                 new FrameworkPropertyMetadata(true,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsExpandChanged));
 
-        //new FrameworkPropertyMetadata(new Thickness(15.0),
-        //            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCornerRadiusChanged));
+        public new static readonly DependencyProperty ContentProperty =
+            DependencyProperty.Register("Content", typeof(object), typeof(NavButton),
+                new FrameworkPropertyMetadata(null,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnContentChanged));
 
-        //public new static readonly DependencyProperty ContentProperty =
-        //    DependencyProperty.Register("Content", typeof(object), typeof(NavButton));
-
-        public static readonly DependencyProperty ImageContentProperty =
-            DependencyProperty.Register("ImageContent", typeof(Image), typeof(NavButton));
+        public static readonly DependencyProperty ImageUriProperty =
+            DependencyProperty.Register("ImageUri", typeof(Uri), typeof(NavButton),
+                new FrameworkPropertyMetadata(null,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnImageUriChanged));
 
         public static readonly DependencyProperty TextContentProperty =
             DependencyProperty.Register("TextContent", typeof(TextBlock), typeof(NavButton));
@@ -58,20 +60,35 @@ namespace CH_ERP_WpfApp.CustomControl
 
         private static void OnIsExpandChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            if (d is NavButton navButton && args.NewValue is ModuleViews moduleViews)
-                navButton.IsChecked = navButton.ModuleMainView == moduleViews;
+            if (d is NavButton navButton && args.NewValue is bool isExpand)
+            {
+                navButton.txtContent.Visibility = navButton.btnContextLine.Visibility = 
+                    isExpand ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
-        //public new object Content
-        //{
-        //    get => (object)GetValue(ContentProperty);
-        //    set => SetValue(ContentProperty, value);
-        //}
-
-        public Image ImageContent
+        private static void OnContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            get => (Image)GetValue(ImageContentProperty);
-            set => SetValue(ImageContentProperty, value);
+            if (d is NavButton navButton && args.NewValue is string strContent)
+                navButton.txtContent.Text = strContent;
+        }
+
+        private static void OnImageUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            if (d is NavButton navButton && args.NewValue is Uri resourceUri)
+                navButton.btnImage.Source = new BitmapImage(resourceUri);
+        }
+
+        public new object Content
+        {
+            get => (object)GetValue(ContentProperty);
+            set => SetValue(ContentProperty, value);
+        }
+
+        public Uri ImageUri
+        {
+            get => (Uri)GetValue(ImageUriProperty);
+            set => SetValue(ImageUriProperty, value);
         }
 
         public TextBlock TextContent

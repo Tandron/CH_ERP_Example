@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\icons8-voller-einkaufswagen-94.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
@@ -22,6 +26,10 @@
     <ProjectReference Include="..\CH_OrderWpfModule\CH_OrderWpfModule.csproj" />
     <ProjectReference Include="..\CH_PurchaseWpfModule\CH_PurchaseWpfModule.csproj" />
     <ProjectReference Include="..\UsingEventAggregator.Core\UsingEventAggregator.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\icons8-voller-einkaufswagen-94.png" />
   </ItemGroup>
 
 </Project>

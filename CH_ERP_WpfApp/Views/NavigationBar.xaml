@@ -12,7 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <sys:Double x:Key="isExpandGridNavWidth">180</sys:Double>
-        <sys:Double x:Key="isNotExpandGridNavWidth">60</sys:Double>
+        <sys:Double x:Key="isNotExpandGridNavWidth">65</sys:Double>
         <sys:Double x:Key="isExpandCornerRadius">15</sys:Double>
         <sys:Double x:Key="isNotExpandCornerRadius">5</sys:Double>
     </UserControl.Resources>
@@ -26,7 +26,8 @@
             </Grid.RowDefinitions>
 
             <ToggleButton Grid.Row="0" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}" IsChecked="True" x:Name="toggleBtnIsExpand"
-                          HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Width="40" Margin="10,0,0,0">
+                          HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Width="40" Margin="10,0,0,0"
+                          Checked="ToggleBtnIsExpand_Checked">
                 <ToggleButton.Triggers>
                     <EventTrigger RoutedEvent="ToggleButton.Unchecked">
                         <BeginStoryboard>
@@ -57,9 +58,10 @@
                 </ToggleButton.Triggers>
             </ToggleButton>
             <views:NavButtonStackPanel Grid.Row="1" x:Name="navBtnStackpan">
-                <customCon:NavButton Content="👍 Einkauf" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
-                                     ActiveModuleMainView="{Binding ActiveModuleView}"/>
-                <customCon:NavButton Content="🖨 Bestellung" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
+                <customCon:NavButton Content="Einkauf" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
+                                     ActiveModuleMainView="{Binding ActiveModuleView}"
+                                     ImageUri="/Images/icons8-voller-einkaufswagen-94.png" />
+                <customCon:NavButton Content="Bestellung" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
                                      ActiveModuleMainView="{Binding ActiveModuleView}"/>
             </views:NavButtonStackPanel>
             <customCon:ErpModeButton Grid.Row="2" Content="{Binding StrErpMode}" ErpModeView="{Binding EditMode}"/>

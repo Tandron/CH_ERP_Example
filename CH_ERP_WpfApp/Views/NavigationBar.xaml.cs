@@ -55,7 +55,15 @@ namespace CH_ERP_WpfApp.Views
 
         private void DoubleAnimation_Completed(object sender, EventArgs args)
         {
-            if (toggleBtnIsExpand.IsChecked is bool isChecked)
+            if (navBtnStackpan != null && toggleBtnIsExpand.IsChecked is bool isChecked && !isChecked)
+            {
+                navBtnStackpan.SetAllNavButtonOnExpand(isChecked);
+            }
+        }
+
+        private void ToggleBtnIsExpand_Checked(object sender, RoutedEventArgs args)
+        {
+            if (navBtnStackpan != null && toggleBtnIsExpand.IsChecked is bool isChecked && isChecked)
             {
                 navBtnStackpan.SetAllNavButtonOnExpand(isChecked);
             }
