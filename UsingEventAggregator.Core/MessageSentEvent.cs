@@ -3,5 +3,5 @@ using UsingEventAggregator.Core.Enums;
 
 namespace UsingEventAggregator.Core
 {
-    public class MessageSentEvent : PubSubEvent<ErpMode> { }
+    public class ErpModeMessageSentEvent : PubSubEvent<ErpMode> { }
 }

@@ -12,7 +12,7 @@ namespace CH_ERP_WpfApp.CustomControl
         public static readonly DependencyProperty ErpModeViewProperty =
            DependencyProperty.Register("ErpModeView", typeof(ErpMode), typeof(ErpModeButton),
                 new FrameworkPropertyMetadata(ErpMode.GameMode,
-                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)); //, OnActiveErpModeViewChanged));
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public ErpModeButton()
         {
@@ -25,20 +25,9 @@ namespace CH_ERP_WpfApp.CustomControl
             set => SetValue(ErpModeViewProperty, value);
         }
 
-        //private static void OnActiveErpModeViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
-        //{
-        //    if (d is ErpModeButton erpModeButton && args.NewValue is ErpMode erpMode)
-        //        navButton.IsChecked = navButton.ModuleMainView == moduleViews;
-        //}
-
         protected override void OnClick()
         {
-            ErpModeView = Enum.GetValues(typeof(ErpMode)).Length == (int)ErpModeView + 1 ? 0 : ErpModeView++;
-            //if (ModuleCommand != null && ModuleCommand.CanExecute(ModuleMainView))
-            //{
-            //    ModuleCommand.Execute(ModuleMainView);
-            //    IsChecked = ActiveModuleMainView == ModuleMainView;
-            //}
+            ErpModeView = Enum.GetValues(typeof(ErpMode)).Length == (int)ErpModeView + 1 ? 0 : ErpModeView + 1;
         }
     }
 }

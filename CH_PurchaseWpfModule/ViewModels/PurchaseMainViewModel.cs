@@ -9,7 +9,7 @@ namespace CH_PurchaseWpfModule.ViewModels
     {
         public PurchaseMainViewModel(IEventAggregator eventAggregator)
         {
-            eventAggregator.GetEvent<MessageSentEvent>().Subscribe(MessageReceived);
+            eventAggregator.GetEvent<ErpModeMessageSentEvent>().Subscribe(MessageReceived);
         }
 
         private void MessageReceived(ErpMode mode)

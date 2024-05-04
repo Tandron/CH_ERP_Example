@@ -56,7 +56,7 @@ namespace CH_ERP_WpfApp.ViewModels
                 _editMode = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(StrErpMode));
-                _eventAggregator.GetEvent<MessageSentEvent>().Publish(_editMode);
+                _eventAggregator.GetEvent<ErpModeMessageSentEvent>().Publish(_editMode);
             }
         }
     }

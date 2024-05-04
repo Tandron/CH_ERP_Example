@@ -4,31 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:CH_ERP_WpfApp.ViewModels"
+             xmlns:views="clr-namespace:CH_ERP_WpfApp.Views"
              xmlns:customCon="clr-namespace:CH_ERP_WpfApp.CustomControl"
              xmlns:sys="clr-namespace:System;assembly=mscorlib" HorizontalAlignment="Left"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:NavigationBarViewModel, IsDesignTimeCreatable=False}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <sys:Double x:Key="actuelWidth">180</sys:Double>
+        <sys:Double x:Key="isExpandGridNavWidth">180</sys:Double>
+        <sys:Double x:Key="isNotExpandGridNavWidth">60</sys:Double>
+        <sys:Double x:Key="isExpandCornerRadius">15</sys:Double>
+        <sys:Double x:Key="isNotExpandCornerRadius">5</sys:Double>
     </UserControl.Resources>
 
     <Border Background="{DynamicResource SecundaryBackgroundColor}" CornerRadius="8 0 0 8">
-        <Grid x:Name="GridNav" Width="{StaticResource actuelWidth}">
+        <Grid x:Name="GridNav" Width="{StaticResource isExpandGridNavWidth}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
 
-            <ToggleButton Grid.Row="0" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}" IsChecked="True"
+            <ToggleButton Grid.Row="0" VerticalAlignment="Center" Style="{DynamicResource iToggleButtonStyle}" IsChecked="True" x:Name="toggleBtnIsExpand"
                           HorizontalAlignment="Left" BorderThickness="0" Background="Transparent" Width="40" Margin="10,0,0,0">
                 <ToggleButton.Triggers>
                     <EventTrigger RoutedEvent="ToggleButton.Unchecked">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width"
-                                                 BeginTime="0:0:0" From="{StaticResource actuelWidth}" To="60" Duration="0:0:0.5"/>
+                                                 BeginTime="0:0:0" From="{StaticResource isExpandGridNavWidth}"
+                                                 To="{StaticResource isNotExpandGridNavWidth}" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetName="navBtnStackpan" Storyboard.TargetProperty="CornerRadius"
+                                                 BeginTime="0:0:0" From="{StaticResource isExpandCornerRadius}"
+                                                 To="{StaticResource isNotExpandCornerRadius}" Duration="0:0:0.5"
+                                                 Completed="DoubleAnimation_Completed"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
@@ -36,18 +45,23 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetName="GridNav" Storyboard.TargetProperty="Width"
-                                                 BeginTime="0:0:0" From="60" To="{StaticResource actuelWidth}" Duration="0:0:0.5"/>
+                                                 BeginTime="0:0:0" From="{StaticResource isNotExpandGridNavWidth}"
+                                                 To="{StaticResource isExpandGridNavWidth}" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetName="navBtnStackpan" Storyboard.TargetProperty="CornerRadius"
+                                                 BeginTime="0:0:0" From="{StaticResource isNotExpandCornerRadius}"
+                                                 To="{StaticResource isExpandCornerRadius}" Duration="0:0:0.5"
+                                                 Completed="DoubleAnimation_Completed"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                 </ToggleButton.Triggers>
             </ToggleButton>
-            <StackPanel Grid.Row="1">
+            <views:NavButtonStackPanel Grid.Row="1" x:Name="navBtnStackpan">
                 <customCon:NavButton Content="👍 Einkauf" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="PurchaseMainControl"
                                      ActiveModuleMainView="{Binding ActiveModuleView}"/>
                 <customCon:NavButton Content="🖨 Bestellung" ModuleCommand="{Binding NavigationCommand}" ModuleMainView="OrderMainControl"
                                      ActiveModuleMainView="{Binding ActiveModuleView}"/>
-            </StackPanel>
+            </views:NavButtonStackPanel>
             <customCon:ErpModeButton Grid.Row="2" Content="{Binding StrErpMode}" ErpModeView="{Binding EditMode}"/>
         </Grid>
     </Border>

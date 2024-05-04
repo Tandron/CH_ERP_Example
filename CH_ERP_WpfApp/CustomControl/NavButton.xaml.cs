@@ -1,5 +1,4 @@
 ﻿using CH_ERP_WpfApp.Enums;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -24,6 +23,18 @@ namespace CH_ERP_WpfApp.CustomControl
         public static readonly DependencyProperty ModuleCommandProperty =
             DependencyProperty.Register("ModuleCommand", typeof(ICommand), typeof(NavButton));
 
+        public static readonly DependencyProperty CornerRadiusProperty =
+            DependencyProperty.Register("CornerRadius", typeof(double), typeof(NavButton),
+                new FrameworkPropertyMetadata(15.0));
+
+        public static readonly DependencyProperty IsExpandProperty =
+            DependencyProperty.Register("IsExpand", typeof(bool), typeof(NavButton),
+                new FrameworkPropertyMetadata(true,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsExpandChanged));
+
+        //new FrameworkPropertyMetadata(new Thickness(15.0),
+        //            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCornerRadiusChanged));
+
         //public new static readonly DependencyProperty ContentProperty =
         //    DependencyProperty.Register("Content", typeof(object), typeof(NavButton));
 
@@ -39,28 +50,13 @@ namespace CH_ERP_WpfApp.CustomControl
             Loaded += (sender, args) => IsChecked = ActiveModuleMainView == ModuleMainView;
         }
 
-        private void NavButton_MouseMove(object sender, MouseEventArgs args)
-        {
-            if (sender is NavButton navButton)
-            {
-                //navButton.BorderBrush = navButton.Background = Brushes.Coral;
-                Debug.WriteLine(navButton.Background);
-            }
-        }
-
-        private void NavButton_Checked(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void NavButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //if (sender is NavButton navButton)
-            //{
-            //    navButton.BorderBrush = navButton.Background = Brushes.Coral;
-            //}
-        }
-
         private static void OnActiveModuleMainViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
+        {
+            if (d is NavButton navButton && args.NewValue is ModuleViews moduleViews)
+                navButton.IsChecked = navButton.ModuleMainView == moduleViews;
+        }
+
+        private static void OnIsExpandChanged(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
             if (d is NavButton navButton && args.NewValue is ModuleViews moduleViews)
                 navButton.IsChecked = navButton.ModuleMainView == moduleViews;
@@ -100,6 +96,18 @@ namespace CH_ERP_WpfApp.CustomControl
         {
             get => (ICommand)GetValue(ModuleCommandProperty);
             set => SetValue(ModuleCommandProperty, value);
+        }
+
+        public double CornerRadius
+        {
+            get => (double)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
+        }
+
+        public bool IsExpand
+        {
+            get => (bool)GetValue(IsExpandProperty);
+            set => SetValue(IsExpandProperty, value);
         }
 
         protected override void OnClick()
