@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        mc:Ignorable="d" 
+        xmlns:local="clr-namespace:CH_ERP_WpfApp.CustomControl"
+        mc:Ignorable="d" Height="35" x:Name="this"
         d:DesignHeight="450" d:DesignWidth="800">
     <Button.Resources>
         <!-- Standard Button Colors-->
@@ -13,17 +14,17 @@
     </Button.Resources>
     <Button.Style>
         <!-- Standard Button Template-->
-        <Style TargetType="Button">
+        <Style TargetType="local:ErpModeButton">
             <Setter Property="Background" Value="{StaticResource StandardButtonBackground}" />
             <Setter Property="Foreground" Value="{StaticResource StandardButtonForeground}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="15"
-                             Background="{TemplateBinding Background}">
+                        <Border CornerRadius="{Binding ElementName=this, Path=CornerRadius}"
+                                Background="{TemplateBinding Background}">
                             <Border Margin="5" BorderThickness="2" BorderBrush="{StaticResource StandardButtonHighlight}"
-                             CornerRadius="15">
-                                <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                                    CornerRadius="{Binding ElementName=this, Path=CornerRadius}">
+                                <ContentPresenter Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True"/>
                             </Border>
                         </Border>
                     </ControlTemplate>
@@ -33,7 +34,24 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="DarkGoldenrod"/>
                 </Trigger>
+                <DataTrigger Binding="{Binding EditMode}" Value="EditMode">
+                    <Setter Property="ImageUri" Value="/Images/icons8-design-94.png" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding EditMode}" Value="GameMode">
+                    <Setter Property="ImageUri" Value="/Images/icons8-game-96.png" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </Button.Style>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" x:Name="btnImage"/>
+        <Line Grid.Column="1" X1="0" Y1="0" X2="0" Y2="{Binding ElementName=this,Path=Height}" Stroke="White" StrokeThickness="5"
+              x:Name="btnContextLine"/>
+        <TextBlock Grid.Column="2" x:Name="txtContent"/>
+    </Grid>
 </Button>

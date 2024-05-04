@@ -58,6 +58,7 @@ namespace CH_ERP_WpfApp.Views
             if (navBtnStackpan != null && toggleBtnIsExpand.IsChecked is bool isChecked && !isChecked)
             {
                 navBtnStackpan.SetAllNavButtonOnExpand(isChecked);
+                btnExpMode.IsExpand = isChecked;
             }
         }
 
@@ -66,6 +67,7 @@ namespace CH_ERP_WpfApp.Views
             if (navBtnStackpan != null && toggleBtnIsExpand.IsChecked is bool isChecked && isChecked)
             {
                 navBtnStackpan.SetAllNavButtonOnExpand(isChecked);
+                btnExpMode.IsExpand = isChecked;
             }
         }
     }

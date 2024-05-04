@@ -9,7 +9,7 @@
         mc:Ignorable="d" MinWidth="500" MinHeight="400"
         d:DataContext="{d:DesignInstance Type=vm:MainWinViewModel, IsDesignTimeCreatable=False}"
         Title="CH_ERP_Example" DataContextChanged="Window_DataContextChanged"
-        Height="650" Width="1000" Background="Transparent" AllowsTransparency="True" Name="this"
+        Width="1400" Height="850" Background="Transparent" AllowsTransparency="True" Name="this"
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResizeWithGrip">
     <Border Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="8">
         <Grid>

@@ -43,9 +43,6 @@ namespace CH_ERP_WpfApp.CustomControl
                 new FrameworkPropertyMetadata(null,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnImageUriChanged));
 
-        public static readonly DependencyProperty TextContentProperty =
-            DependencyProperty.Register("TextContent", typeof(TextBlock), typeof(NavButton));
-
         public NavButton()
         {
             InitializeComponent();
@@ -89,12 +86,6 @@ namespace CH_ERP_WpfApp.CustomControl
         {
             get => (Uri)GetValue(ImageUriProperty);
             set => SetValue(ImageUriProperty, value);
-        }
-
-        public TextBlock TextContent
-        {
-            get => (TextBlock)GetValue(TextContentProperty);
-            set => SetValue(TextContentProperty, value);
         }
 
         public ModuleViews ModuleMainView

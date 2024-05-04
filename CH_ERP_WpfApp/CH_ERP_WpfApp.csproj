@@ -10,8 +10,11 @@
 
   <ItemGroup>
     <None Remove="Images\icons8-bill-94.png" />
+    <None Remove="Images\icons8-design-94.png" />
     <None Remove="Images\icons8-expand-64.png" />
     <None Remove="Images\icons8-full-purchase-94.png" />
+    <None Remove="Images\icons8-game-48.png" />
+    <None Remove="Images\icons8-game-96.png" />
     <None Remove="Images\icons8-order-50.png" />
     <None Remove="Images\icons8-shopping-cart-94.png" />
   </ItemGroup>
@@ -22,11 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ASP.NetCoreAPI\ASP.NetCoreAPI.csproj" />
     <ProjectReference Include="..\CH_OrderWpfModule\CH_OrderWpfModule.csproj" />
     <ProjectReference Include="..\CH_PurchaseWpfModule\CH_PurchaseWpfModule.csproj" />
     <ProjectReference Include="..\UsingEventAggregator.Core\UsingEventAggregator.Core.csproj" />
@@ -34,8 +32,11 @@
 
   <ItemGroup>
     <Resource Include="Images\icons8-bill-94.png" />
+    <Resource Include="Images\icons8-design-94.png" />
     <Resource Include="Images\icons8-expand-64.png" />
     <Resource Include="Images\icons8-full-purchase-94.png" />
+    <Resource Include="Images\icons8-game-48.png" />
+    <Resource Include="Images\icons8-game-96.png" />
     <Resource Include="Images\icons8-order-50.png" />
     <Resource Include="Images\icons8-shopping-cart-94.png" />
   </ItemGroup>
