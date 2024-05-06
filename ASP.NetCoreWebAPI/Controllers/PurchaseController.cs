@@ -1,29 +1,44 @@
-﻿using CH_PurchaseWpfModule.Models;
+﻿using ASP.NetCoreWebAPI.Models.Purchase;
+using CH_PurchaseWpfModule.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NetCoreWebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class PurchaseController : ControllerBase
+    [Route("api/purchases")]
+    public class PurchaseController(PurchaseDb context) : ControllerBase
     {
-        private readonly ILogger<PurchaseController> _logger;
+        private readonly PurchaseDb _context = context;
 
-        public PurchaseController(ILogger<PurchaseController> logger)
+        [HttpGet("getCompanyPurchases", Name = "GetCompanyPurchases")]
+        public IEnumerable<CompanyPurchase> GetCompanyPurchase(int skipRows, int pageSize)
         {
-            _logger = logger;
+            return _context.CompanyPurchases.Skip(skipRows).Take(pageSize).ToList();
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<CompanyPurchase> Get()
+        [HttpPost("appendCompanyPurchase", Name = "AppendCompanyPurchase")]
+        public IActionResult CreateCompanyPurchase(CompanyPurchase companyPurchase)
         {
-            return Enumerable.Range(1, 5).Select(index => new CompanyPurchase
-            {
-                //Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                //TemperatureC = Random.Shared.Next(-20, 55),
-                //Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            _context.CompanyPurchases.Add(companyPurchase);
+            _context.SaveChanges();
+            return Ok();
         }
+
+        //[HttpDelete]
+        //public IActionResult DeleteJobPostingById(int id)
+        //{
+        //    if (id == 0)
+        //        return BadRequest();
+
+        //    var jobPostingFromDb = _context.JobPostings.SingleOrDefault(x => x.Id == id);
+
+        //    if (jobPostingFromDb == null)
+        //        return NotFound();
+
+        //    _context.JobPostings.Remove(jobPostingFromDb);
+        //    _context.SaveChanges();
+
+        //    return Ok();
+        //}
     }
 }

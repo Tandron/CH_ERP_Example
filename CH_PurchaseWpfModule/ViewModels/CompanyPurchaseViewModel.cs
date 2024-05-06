@@ -5,11 +5,16 @@ namespace CH_PurchaseWpfModule.ViewModels
 {
     public class CompanyPurchaseViewModel : BindableBase
     {
-        private CompanyPurchase _companyPurchase;
+        private readonly CompanyPurchase _companyPurchase;
 
         public CompanyPurchaseViewModel()
         {
             _companyPurchase = new();
+        }
+
+        public CompanyPurchaseViewModel(CompanyPurchase companyPurchase)
+        {
+            _companyPurchase = companyPurchase ?? new CompanyPurchase();
         }
 
         public int Id
