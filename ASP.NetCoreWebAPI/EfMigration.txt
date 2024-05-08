@@ -1,0 +1,2 @@
+Add-Migration Initial -project ASP.NetCoreWebAPI
+Update-Database -project ASP.NetCoreWebAPI

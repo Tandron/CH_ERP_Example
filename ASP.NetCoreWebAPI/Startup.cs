@@ -3,22 +3,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ASP.NetCoreWebAPI
 {
-    public class Startup
+    public class Startup(IConfiguration configuration)
     {
-        public IConfiguration ConfigRoot { get; }
+        public IConfiguration ConfigRoot { get; } = configuration;
 
-        public Startup(IConfiguration configuration)
-        {
-            ConfigRoot = configuration;
-        }
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<PurchaseDb>(options => 
+            //options.UseSqlServer("server=.;database=PurchaseDb;trusted_connection=true;"));
+
             services.AddDbContext<PurchaseDb>(options => options.UseSqlServer(ConfigRoot.GetConnectionString("PurchaseDbConnection")));
+            //services.AddDbContext<PurchaseDb>(options => options.UseSqlServer(PurchaseDb.GetSqlConnectionString()));
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
         }
+
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             // Configure the HTTP request pipeline.

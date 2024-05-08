@@ -21,7 +21,7 @@ namespace ASP.NetCoreWebAPI.Controllers
         {
             _context.CompanyPurchases.Add(companyPurchase);
             _context.SaveChanges();
-            return Ok();
+            return Ok(companyPurchase.Id > 0 ? companyPurchase.Id : -1);
         }
 
         //[HttpDelete]

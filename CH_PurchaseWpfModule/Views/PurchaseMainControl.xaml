@@ -6,7 +6,8 @@
              xmlns:vm="clr-namespace:CH_PurchaseWpfModule.ViewModels"
              xmlns:chDataGrid="clr-namespace:CH_WpfControls.CH_DataGrid;assembly=CH_WpfControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="UserControl_DataContextChanged">
+             <!--d:DataContext="{d:DesignInstance Type=vm:PurchaseMainViewModel, IsDesignTimeCreatable=False}"-->
     <GroupBox Header="Einkauf" TextBlock.Foreground="White" TextBlock.FontSize="20"
               Background="{DynamicResource SecundaryBackgroundColor}">
         <Grid Margin="10">
@@ -14,8 +15,48 @@
                 <!--<RowDefinition Height="Auto"/>-->
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
+            <chDataGrid:CH_DataGrid Grid.Row="0" AutoGenerateColumns="True" CanUserFreeze="True" CanUserSelectDistinct="True" CanUserGroup="False"  
+                                    GridLinesVisibility="All" SelectionMode="Extended" SelectionUnit="Cell" FontSize="12"
+                                    CanUserFilter="True" Name="dataGrid1" Margin="0,25,0,0" />
+
             <!--<TextBlock Grid.Row="0" Foreground="White" Text="Einkauf" FontSize="20" TextAlignment="Center" />-->
-            <chDataGrid:CH_DataGrid Grid.Row="0"/>
+            <!--<chDataGrid:CH_DataGrid Grid.Row="0" Margin="4" ItemsSource="{Binding CompanyPurchasesVm}" AutoGenerateColumns="False" TabIndex="1" 
+                                    SelectionMode="Single" SelectedItem="{Binding SelectedCompanyPurchaseItemVm}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Firma" Width="140" Binding="{Binding CompanyName,Mode=OneWay}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Straße" Width="180" Binding="{Binding Street,Mode=OneWay}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Stadt" Binding="{Binding City,Mode=OneWay}">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </chDataGrid:CH_DataGrid>-->
         </Grid>
     </GroupBox>
 </UserControl>

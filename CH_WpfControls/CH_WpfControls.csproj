@@ -8,7 +8,45 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <None Remove="CH_DataGrid\Images\Contains.png" />
+    <None Remove="CH_DataGrid\Images\EndsWith.png" />
+    <None Remove="CH_DataGrid\Images\Equal.png" />
+    <None Remove="CH_DataGrid\Images\GreaterThan.png" />
+    <None Remove="CH_DataGrid\Images\GreaterThanEqual.png" />
+    <None Remove="CH_DataGrid\Images\GroupBy.png" />
+    <None Remove="CH_DataGrid\Images\LastX.png" />
+    <None Remove="CH_DataGrid\Images\LessThan.png" />
+    <None Remove="CH_DataGrid\Images\LessThanEqual.png" />
+    <None Remove="CH_DataGrid\Images\NotEqual.png" />
+    <None Remove="CH_DataGrid\Images\pinDown.png" />
+    <None Remove="CH_DataGrid\Images\PinUp.png" />
+    <None Remove="CH_DataGrid\Images\RemoveGroupBy.png" />
+    <None Remove="CH_DataGrid\Images\StartsWith.png" />
+    <None Remove="CH_DataGrid\Images\Today.png" />
+    <None Remove="CH_DataGrid\Images\Yesterday.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CH_DataGrid\ValueConverter\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="CH_DataGrid\Images\Contains.png" />
+    <Resource Include="CH_DataGrid\Images\EndsWith.png" />
+    <Resource Include="CH_DataGrid\Images\Equal.png" />
+    <Resource Include="CH_DataGrid\Images\GreaterThan.png" />
+    <Resource Include="CH_DataGrid\Images\GreaterThanEqual.png" />
+    <Resource Include="CH_DataGrid\Images\GroupBy.png" />
+    <Resource Include="CH_DataGrid\Images\LastX.png" />
+    <Resource Include="CH_DataGrid\Images\LessThan.png" />
+    <Resource Include="CH_DataGrid\Images\LessThanEqual.png" />
+    <Resource Include="CH_DataGrid\Images\NotEqual.png" />
+    <Resource Include="CH_DataGrid\Images\pinDown.png" />
+    <Resource Include="CH_DataGrid\Images\PinUp.png" />
+    <Resource Include="CH_DataGrid\Images\RemoveGroupBy.png" />
+    <Resource Include="CH_DataGrid\Images\StartsWith.png" />
+    <Resource Include="CH_DataGrid\Images\Today.png" />
+    <Resource Include="CH_DataGrid\Images\Yesterday.png" />
   </ItemGroup>
 
 </Project>

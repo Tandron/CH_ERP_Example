@@ -5,7 +5,7 @@ namespace CH_PurchaseWpfModule.ViewModels
 {
     public class CompanyPurchaseViewModel : BindableBase
     {
-        private readonly CompanyPurchase _companyPurchase;
+        protected readonly CompanyPurchase _companyPurchase;
 
         public CompanyPurchaseViewModel()
         {
