@@ -22,7 +22,7 @@ namespace CH_PurchaseWpfModule.ViewModels
         {
             eventAggregator.GetEvent<ErpModeMessageSentEvent>().Subscribe(MessageReceived);
             LoadFromDatabase();
-            ImportCompanyPurchases();
+            //ImportCompanyPurchases();
         }
 
         private void MessageReceived(ErpMode mode)
