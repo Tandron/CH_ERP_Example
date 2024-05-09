@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 using UsingEventAggregator.Core;
 using UsingEventAggregator.Core.Enums;
 
@@ -40,26 +41,34 @@ namespace CH_PurchaseWpfModule.ViewModels
             }
         }
 
-        private void LoadFromDatabase()
+        private async void LoadFromDatabase()
         {
-            Task.Run(() =>
-            {
-                //Thread.Sleep(13000);
-                RestRequest request = new("getCompanyPurchases", Method.Get);
-                var response = _client.Execute<List<CompanyPurchase>>(request);
+            int pageSize = 50;
+            int skipCount = 0;
+            bool isReady = false;
+            RestRequest request = new("getCompanyPurchases", Method.Get);
 
-                Application.Current.Dispatcher.BeginInvoke(() =>
+            request.AddParameter("pageSize", pageSize);
+            do
+            {
+                request.AddParameter("skipRows", skipCount);
+                var response = await _client.ExecuteAsync<List<CompanyPurchase>>(request);
+
+                Application.Current.Dispatcher.Invoke(() =>
                 {
                     if (response.StatusCode == HttpStatusCode.OK && response.Data is List<CompanyPurchase> liCompanyPurchases)
                     {
+                        isReady = liCompanyPurchases.Count < pageSize;
                         foreach (var liDoc in liCompanyPurchases)
                         {
-
+                            CompanyPurchasesVm.Add(new(liDoc));
                         }
-                        //CompanyPurchasesVm.Add(new(liDoc));
                     }
-                });
-            });
+                }, DispatcherPriority.Background);
+                skipCount += pageSize;
+                if (request.Parameters.FirstOrDefault(x => x.Name == "skipRows") is Parameter parameter)
+                    request.RemoveParameter(parameter);
+            } while (!isReady);
         }
 
         private void NewPurchaseCompanyFunc()
@@ -100,6 +109,22 @@ namespace CH_PurchaseWpfModule.ViewModels
             return list.ToArray();
         }
 
+        private int AppendPurchaseCompanyFunc(CompanyPurchase companyPurchase)
+        {
+            int result = 0;
+            var request = new RestRequest("appendCompanyPurchase", Method.Post);
+
+            request.AddJsonBody(companyPurchase);
+            var response = _client.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.OK && !string.IsNullOrEmpty(response.Content) &&
+                int.TryParse(response.Content, out int idNumber) && idNumber > 0)
+            {
+                result = idNumber;
+            }
+            return result;
+        }
+
         private void ImportCompanyPurchases()
         {
             string homeDir = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -138,7 +163,14 @@ namespace CH_PurchaseWpfModule.ViewModels
                         PostalCode = strLines[7].Trim('\"'),
                         PhoneNumber = strLines[8].Trim('\"')
                     };
-                    CompanyPurchasesVm.Add(new CompanyPurchaseViewModel(companyPurchase));
+
+                    int id = AppendPurchaseCompanyFunc(companyPurchase);
+
+                    if (id > 0)
+                    {
+                        companyPurchase.Id = id;
+                        CompanyPurchasesVm.Add(new CompanyPurchaseViewModel(companyPurchase));
+                    }
                 }
             }
         }

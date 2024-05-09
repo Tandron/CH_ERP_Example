@@ -7,13 +7,17 @@ namespace ASP.NetCoreWebAPI
     {
         public IConfiguration ConfigRoot { get; } = configuration;
 
+        private static void SetCurrentDbDomain()
+        {
+            string projectFolder = Directory.GetCurrentDirectory() + @"\Databases\";
+
+            AppDomain.CurrentDomain.SetData("DataDirectory", projectFolder);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<PurchaseDb>(options => 
-            //options.UseSqlServer("server=.;database=PurchaseDb;trusted_connection=true;"));
-
+            SetCurrentDbDomain();
             services.AddDbContext<PurchaseDb>(options => options.UseSqlServer(ConfigRoot.GetConnectionString("PurchaseDbConnection")));
-            //services.AddDbContext<PurchaseDb>(options => options.UseSqlServer(PurchaseDb.GetSqlConnectionString()));
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
@@ -25,6 +29,7 @@ namespace ASP.NetCoreWebAPI
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }

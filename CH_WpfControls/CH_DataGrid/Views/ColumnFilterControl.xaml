@@ -248,6 +248,8 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBox x:Name="txtFilter" Visibility="Collapsed" BorderThickness="1" BorderBrush="Gray" KeyUp="txtFilter_KeyUp"  Text="{Binding FilterText,Mode=TwoWay, UpdateSourceTrigger=Explicit}" IsReadOnly="{Binding FilterReadOnly}" Grid.Column="1" VerticalAlignment="Stretch" Margin="0,0,0,0"  FontSize="12" />
+        <TextBox x:Name="txtFilter" Grid.Column="1" Visibility="Collapsed" BorderThickness="1" BorderBrush="Gray" KeyUp="txtFilter_KeyUp"
+                 Text="{Binding FilterText,Mode=TwoWay, UpdateSourceTrigger=Explicit}" IsReadOnly="{Binding FilterReadOnly}"
+                 VerticalAlignment="Stretch" Margin="0,0,0,0"  FontSize="12" />
     </Grid>
 </UserControl>

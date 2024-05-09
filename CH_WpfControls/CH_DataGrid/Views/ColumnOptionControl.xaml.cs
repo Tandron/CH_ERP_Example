@@ -13,10 +13,10 @@ namespace CH_WpfControls.CH_DataGrid.Views
     /// </summary>
     public partial class ColumnOptionControl : UserControl
     {
-        private FilterOperationItem _addPin = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Pin Column", "/Jib.WPF.Controls;component/Images/PinUp.png");
-        private FilterOperationItem _addGroup = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Add Grouping", "/Jib.WPF.Controls;component/Images/GroupBy.png");
-        private FilterOperationItem _removePin = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Unpin Column", "/Jib.WPF.Controls;component/Images/pinDown.png");
-        private FilterOperationItem _removeGroup = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Remove Grouping", "/Jib.WPF.Controls;component/Images/RemoveGroupBy.png");
+        private FilterOperationItem _addPin = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Pin Column", "../Images/PinUp.png");
+        private FilterOperationItem _addGroup = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Add Grouping", "../Images/GroupBy.png");
+        private FilterOperationItem _removePin = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Unpin Column", "../Images/pinDown.png");
+        private FilterOperationItem _removeGroup = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Remove Grouping", "../Images/RemoveGroupBy.png");
 
         public CH_DataGrid Grid { get; set; }
 
