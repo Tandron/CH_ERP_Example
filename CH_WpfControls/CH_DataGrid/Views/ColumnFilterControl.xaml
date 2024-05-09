@@ -258,18 +258,11 @@
             </ComboBox.ItemTemplate>
         </ComboBox>
         <ComboBox x:Name="cbDistinctProperties" Visibility="Collapsed" HorizontalAlignment="Stretch" 
-                  ItemsSource="{Binding DistinctPropertyValues,Mode=TwoWay}"  VerticalAlignment="Stretch" Grid.Column="1"
-                  Background="white"  DropDownOpened="cbDistinctProperties_DropDownOpened" Style="{DynamicResource FilterComboBoxStyle}">
+                  VerticalAlignment="Stretch" Grid.Column="1"
+                  Background="white" DropDownOpened="CbDistinctProperties_DropDownOpened" Style="{DynamicResource FilterComboBoxStyle}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Description,Mode=OneWay}"/>
-                    </Grid>
+                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Description,Mode=OneWay}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

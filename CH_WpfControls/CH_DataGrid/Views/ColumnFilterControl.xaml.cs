@@ -428,13 +428,13 @@ namespace CH_WpfControls.CH_DataGrid.Views
             }
         }
 
-        private void cbDistinctProperties_DropDownOpened(object sender, EventArgs args)
+        private void CbDistinctProperties_DropDownOpened(object sender, EventArgs args)
         {
             if (_boundColumnPropertyAccessor != null)
             {
                 if (DistinctPropertyValues.Count == 0)
                 {
-                    List<object> result = new List<object>();
+                    List<object> result = [];
                     foreach (var i in Grid.FilteredItemsSource)
                     {
                         object value = _boundColumnPropertyAccessor(i);
@@ -462,6 +462,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                         item.PropertyChanged += new PropertyChangedEventHandler(Filter_PropertyChanged);
                         DistinctPropertyValues.Add(item);
                     }
+                    cbDistinctProperties.ItemsSource = DistinctPropertyValues;
                 }
             }
         }
