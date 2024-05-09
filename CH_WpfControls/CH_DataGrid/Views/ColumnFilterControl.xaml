@@ -10,7 +10,8 @@
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Rectangle Margin="4,4,21,4" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2" />
+                        <Rectangle Margin="4,4,21,4" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                   StrokeThickness="1" StrokeDashArray="1 2" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -31,9 +32,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" SnapsToDevicePixels="true">
+                        <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                               Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}"
+                                                               RenderPressed="{TemplateBinding IsPressed}" SnapsToDevicePixels="true">
                             <Grid HorizontalAlignment="Right" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
-                                <Path x:Name="Arrow" Data="{StaticResource DownArrowGeometry}" Fill="Black" HorizontalAlignment="Center" Margin="3,1,0,0" VerticalAlignment="Center" />
+                                <Path x:Name="Arrow" Data="{StaticResource DownArrowGeometry}" Fill="Black" HorizontalAlignment="Center" 
+                                      Margin="3,1,0,0" VerticalAlignment="Center" />
                             </Grid>
                         </Microsoft_Windows_Themes:ButtonChrome>
                         <ControlTemplate.Triggers>
@@ -64,7 +68,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
-                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                        <ScrollViewer x:Name="PART_ContentHost" Background="Transparent" Focusable="false"
+                                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -77,8 +82,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderPressed="{TemplateBinding IsPressed}" RoundCorners="false" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
-                            <Path x:Name="Arrow" Data="{StaticResource DownArrowGeometry}" Fill="Black" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Center" />
+                        <Microsoft_Windows_Themes:ButtonChrome x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                               Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}"
+                                                               RenderPressed="{TemplateBinding IsPressed}" RoundCorners="false" SnapsToDevicePixels="true"
+                                                               Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+                            <Path x:Name="Arrow" Data="{StaticResource DownArrowGeometry}" Fill="Black" HorizontalAlignment="Center"
+                                  Margin="0,1,0,0" VerticalAlignment="Center" />
                         </Microsoft_Windows_Themes:ButtonChrome>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="true">
@@ -163,13 +172,21 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0" />
                             </Grid.ColumnDefinitions>
-                            <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
-                                <Microsoft_Windows_Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ActualWidth, ElementName=MainGrid}">
-                                    <Border x:Name="DropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+                            <Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2"
+                                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Margin="1" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" 
+                                   Placement="Bottom">
+                                <Microsoft_Windows_Themes:SystemDropShadowChrome x:Name="Shdw" Color="Transparent"
+                                                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}" 
+                                                                                 MinWidth="{Binding ActualWidth, ElementName=MainGrid}">
+                                    <Border x:Name="DropDownBorder" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}"
+                                            BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
                                         <ScrollViewer x:Name="DropDownScrollViewer">
                                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                                 <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
-                                                    <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}" Height="{Binding ActualHeight, ElementName=DropDownBorder}" Width="{Binding ActualWidth, ElementName=DropDownBorder}" />
+                                                    <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=DropDownBorder}"
+                                                               Height="{Binding ActualHeight, ElementName=DropDownBorder}"
+                                                               Width="{Binding ActualWidth, ElementName=DropDownBorder}" />
                                                 </Canvas>
                                                 <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                             </Grid>
@@ -177,8 +194,13 @@
                                     </Border>
                                 </Microsoft_Windows_Themes:SystemDropShadowChrome>
                             </Popup>
-                            <ToggleButton BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxReadonlyToggleButton}" />
-                            <TextBox BorderThickness="1" BorderBrush="Gray" KeyUp="txtFilter_KeyUp"  Text="{Binding FilterText,Mode=TwoWay, UpdateSourceTrigger=Explicit}" Background="{Binding FilterBackGround,Mode=OneWay}" IsReadOnly="{Binding FilterReadOnly}" VerticalAlignment="Stretch" Margin="0,0,0,0"  FontSize="12" />
+                            <ToggleButton BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"
+                                          Grid.ColumnSpan="2" Style="{StaticResource ComboBoxReadonlyToggleButton}" 
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <TextBox BorderThickness="1" BorderBrush="Gray" KeyUp="TxtFilter_KeyUp" 
+                                     Text="{Binding FilterText,Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                                     Background="{Binding FilterBackGround,Mode=OneWay}" IsReadOnly="{Binding FilterReadOnly}" 
+                                     VerticalAlignment="Stretch" Margin="0,0,0,0"  FontSize="12" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
@@ -220,7 +242,7 @@
             <ColumnDefinition Width="24" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="cbOperation" ItemsSource="{Binding FilterOperations,Mode=OneWay}" IsEnabled="{Binding FilterOperationsEnabled}" SelectionChanged="CbOperation_SelectionChanged" Grid.Column="0"  d:LayoutOverrides="Height"  Margin="0,0,-30,0">
+        <ComboBox x:Name="cbOperation" SelectionChanged="CbOperation_SelectionChanged" Grid.Column="0" d:LayoutOverrides="Height" Margin="0,0,-30,0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -228,28 +250,31 @@
                             <ColumnDefinition Width="20" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Image VerticalAlignment="Top" x:Name="imgSort" Source="{Binding ImagePath}" Width="16" Height="16" HorizontalAlignment="Left" Margin="-1,0" />
-                        <TextBlock x:Name="txtDescription" Margin="5,0,0,0" Text="{Binding Description}" Grid.Column="1"></TextBlock>
+                        <Image VerticalAlignment="Top" x:Name="imgSort" Source="{Binding ImagePath}" Width="16" Height="16"
+                               HorizontalAlignment="Left" Margin="-1,0" />
+                        <TextBlock x:Name="txtDescription" Margin="5,0,0,0" Text="{Binding Description}" Grid.Column="1"/>
                     </Grid>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <ComboBox x:Name="cbDistinctProperties" Visibility="Collapsed" HorizontalAlignment="Stretch" ItemsSource="{Binding DistinctPropertyValues,Mode=TwoWay}"  VerticalAlignment="Stretch" Grid.Column="1" Background="white"  DropDownOpened="cbDistinctProperties_DropDownOpened" Style="{DynamicResource FilterComboBoxStyle}">
+        <ComboBox x:Name="cbDistinctProperties" Visibility="Collapsed" HorizontalAlignment="Stretch" 
+                  ItemsSource="{Binding DistinctPropertyValues,Mode=TwoWay}"  VerticalAlignment="Stretch" Grid.Column="1"
+                  Background="white"  DropDownOpened="cbDistinctProperties_DropDownOpened" Style="{DynamicResource FilterComboBoxStyle}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay}"></CheckBox>
-                        <TextBlock Text="{Binding Description,Mode=OneWay}" Grid.Column="1"></TextBlock>
+                        <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Description,Mode=OneWay}"/>
                     </Grid>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <TextBox x:Name="txtFilter" Grid.Column="1" Visibility="Collapsed" BorderThickness="1" BorderBrush="Gray" KeyUp="txtFilter_KeyUp"
-                 Text="{Binding FilterText,Mode=TwoWay, UpdateSourceTrigger=Explicit}" IsReadOnly="{Binding FilterReadOnly}"
+        <TextBox x:Name="txtFilter" Grid.Column="1" Visibility="Collapsed" BorderThickness="1" BorderBrush="Gray" KeyUp="TxtFilter_KeyUp"
+                 IsReadOnly="{Binding FilterReadOnly}"
                  VerticalAlignment="Stretch" Margin="0,0,0,0"  FontSize="12" />
     </Grid>
 </UserControl>

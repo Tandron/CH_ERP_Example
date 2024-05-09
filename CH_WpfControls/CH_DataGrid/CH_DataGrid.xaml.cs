@@ -171,7 +171,7 @@ namespace CH_WpfControls.CH_DataGrid
         #endregion Filter Properties
         public CH_DataGrid()
         {
-            _filterHandler = new PropertyChangedEventHandler(filter_PropertyChanged);
+            _filterHandler = new PropertyChangedEventHandler(Filter_PropertyChanged);
             InitializeComponent();
             Style = GetStyle("DataGridStyle");
             CellStyle = GetStyle("DataGridCellStyle");
@@ -197,7 +197,7 @@ namespace CH_WpfControls.CH_DataGrid
         /// </summary>
         /// <param name="sender">The object which has risen the event</param>
         /// <param name="e">The property which has been changed</param>
-        void filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        void Filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "FilterChanged")
             {
@@ -237,7 +237,7 @@ namespace CH_WpfControls.CH_DataGrid
             }
         }
 
-        internal void RegisterOptionControl(ColumnFilterControl ctrl)
+        public void RegisterOptionControl(ColumnFilterControl ctrl)
         {
             if (!Filters.Contains(ctrl))
             {
@@ -486,34 +486,6 @@ namespace CH_WpfControls.CH_DataGrid
                 }
             }
         }
-
-        private void MenuHide_Click(object sender, RoutedEventArgs e)
-        {
-            var menuName = (MenuItem)e.Source;
-            DataGridColumn column = Columns.Where(c => c.Header.ToString() == menuName.DataContext.ToString()).FirstOrDefault();
-
-            int index = GetColumnHeaderIndexFromColumn(column);
-
-            var visibleColumns = Columns.Where(c => c.Visibility == Visibility.Visible).ToList();
-            for (int i = 0; i < visibleColumns.Count; i++)
-            {
-                if (index == i)
-                {
-                    visibleColumns[index].Visibility = Visibility.Hidden;
-                    break;
-                }
-            }
-        }
-
-        private void MenuShowAll_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (var item in Columns)
-            {
-                item.Visibility = Visibility.Visible;
-            }
-        }
-
-  
     }
 }
 

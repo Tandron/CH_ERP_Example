@@ -17,15 +17,15 @@ namespace CH_WpfControls.CH_DataGrid.Views
     /// </summary>
     public partial class ColumnFilterControl : UserControl
     {
-        private Func<object, object> _boundColumnPropertyAccessor = null;
+        private Func<object, object> _boundColumnPropertyAccessor;
 
-        #region Properties
+        private int _filterPeriod;
 
         public ObservableCollection<FilterOperationItem> FilterOperations { get; set; } = [];
 
         public ObservableCollection<CheckboxComboItem> DistinctPropertyValues { get; set; } = [];
 
-        public bool HasPredicate { get { return FilterText.Length > 0 || DistinctPropertyValues.Where(d => d.IsChecked).Count() > 0; } }
+        public bool HasPredicate => txtFilter.Text.Length > 0 || DistinctPropertyValues.Any(d => d.IsChecked);
 
         public OptionColumnInfo FilterColumnInfo { get; set; }
 
@@ -42,7 +42,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
             {
                 _CanUserFreeze = value;
                 Grid.UpdateColumnOptionControl(this);
-                OnPropertyChanged("CanUserFreeze");
+                //OnPropertyChanged("CanUserFreeze");
             }
         }
 
@@ -57,7 +57,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
             {
                 _CanUserGroup = value;
                 Grid.UpdateColumnOptionControl(this);
-                OnPropertyChanged("CanUserGroup");
+                //OnPropertyChanged("CanUserGroup");
             }
         }
 
@@ -93,24 +93,17 @@ namespace CH_WpfControls.CH_DataGrid.Views
         {
             get
             {
-                return this.Visibility;
+                return Visibility;
             }
             set
             {
-                this.Visibility = value;
+                Visibility = value;
             }
         }
 
-        public bool FilterReadOnly
-        {
-            get { return DistinctPropertyValues.Where(i => i.IsChecked).Count() > 0; }
-        }
+        private bool FilterReadOnly => DistinctPropertyValues.Any(i => i.IsChecked);
 
-        public bool FilterOperationsEnabled
-        {
-            get { return DistinctPropertyValues.Where(i => i.IsChecked).Count() == 0; }
-        }
-
+        private bool _filterOperationsEnabled => !DistinctPropertyValues.Any(i => i.IsChecked);
 
         public Brush FilterBackGround
         {
@@ -122,23 +115,8 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     return Brushes.White;
             }
         }
-        private string _FilterText = string.Empty;
-        public string FilterText
-        {
-            get { return _FilterText; }
-            set
-            {
-                if (value != _FilterText)
-                {
-                    _FilterText = value;
-                    OnPropertyChanged("FilterText");
-                    OnPropertyChanged("FilterChanged");
-                }
-            }
-        }
 
-        private int FilterPeriod;
-
+        public PropertyChangedEventHandler PropertyChanged { get; internal set; }
 
         //private FilterOperationItem _SelectedFilterOperation;
         //public FilterOperationItem SelectedFilterOperation
@@ -159,7 +137,6 @@ namespace CH_WpfControls.CH_DataGrid.Views
         //        }
         //    }
         //}
-        #endregion
 
         public ColumnFilterControl()
         {
@@ -167,8 +144,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                this.DataContext = this;
-                this.Loaded += new RoutedEventHandler(ColumnFilterControl_Loaded);
+                Loaded += new RoutedEventHandler(ColumnFilterControl_Loaded);
             }
         }
 
@@ -281,6 +257,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     FilterOperations.Add(new FilterOperationItem(FilterEnum.FilterOperation.LastXWeeks, "Last X Weeks", "../Images/LastX.png", false));
                     FilterOperations.Add(new FilterOperationItem(FilterEnum.FilterOperation.LastXMonths, "Last X Months", "../Images/LastX.png", false));
                 }
+                cbOperation.ItemsSource = FilterOperations;
                 cbOperation.SelectedItem = FilterOperations[0];
             }
 
@@ -289,7 +266,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 foreach (var i in DistinctPropertyValues.Where(i => i.IsChecked))
                     i.IsChecked = false;
                 DistinctPropertyValues.Clear();
-                FilterText = string.Empty;
+                txtFilter.Text = string.Empty;
                 _boundColumnPropertyAccessor = null;
 
                 if (!string.IsNullOrWhiteSpace(FilterColumnInfo.PropertyPath))
@@ -297,7 +274,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     if (FilterColumnInfo.PropertyPath.Contains('.'))
                         throw new ArgumentException(string.Format("This version of the grid does not support a nested property path such as '{0}'.  Please make a first-level property for filtering and bind to that.", FilterColumnInfo.PropertyPath));
 
-                    this.Visibility = System.Windows.Visibility.Visible;
+                    Visibility = Visibility.Visible;
                     ParameterExpression arg = System.Linq.Expressions.Expression.Parameter(typeof(object), "x");
                     System.Linq.Expressions.Expression expr = System.Linq.Expressions.Expression.Convert(arg, Grid.FilterType);
                     expr = System.Linq.Expressions.Expression.Property(expr, Grid.FilterType, FilterColumnInfo.PropertyPath);
@@ -306,11 +283,11 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 }
                 else
                 {
-                    this.Visibility = System.Windows.Visibility.Collapsed;
+                    Visibility = Visibility.Collapsed;
                 }
                 object oDefaultFilter = column.GetValue(ColumnConfiguration.DefaultFilterProperty);
                 if (oDefaultFilter != null)
-                    FilterText = (string)oDefaultFilter;
+                    txtFilter.Text = (string)oDefaultFilter;
             }
 
             CalcControlVisibility();
@@ -324,14 +301,9 @@ namespace CH_WpfControls.CH_DataGrid.Views
             ResetControl();
         }
 
-        private void txtFilter_Loaded(object sender, RoutedEventArgs e)
+        private void TxtFilter_KeyUp(object sender, KeyEventArgs args)
         {
-            ((TextBox)sender).DataContext = this;
-        }
-
-        private void txtFilter_KeyUp(object sender, KeyEventArgs e)
-        {
-            FilterText = ((TextBox)sender).Text;
+            txtFilter.Text = ((TextBox)sender).Text;
         }
 
         public Predicate<object> GeneratePredicate()
@@ -354,7 +326,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 }
                 else
                 {
-                    predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, FilterText, Grid.FilterType, 
+                    predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, txtFilter.Text, Grid.FilterType, 
                         FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem);
                 }
             }
@@ -395,22 +367,22 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-1.0).ToString(), DateTime.Today.ToString(), propType, objParam);
 
                 case FilterEnum.FilterOperation.LastXDays:
-                    if (FilterPeriod == 0)
+                    if (_filterPeriod == 0)
                         return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-1.0).ToString(), DateTime.Today.ToString(), propType, objParam);
                     else
-                        return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-1 * FilterPeriod).ToString(), DateTime.Today.ToString(), propType, objParam);
+                        return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-1 * _filterPeriod).ToString(), DateTime.Today.ToString(), propType, objParam);
 
                 case FilterEnum.FilterOperation.LastXWeeks:
-                    if (FilterPeriod == 0)
+                    if (_filterPeriod == 0)
                         return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-7.0).ToString(), DateTime.Today.ToString(), propType, objParam);
                     else
-                        return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-7 * FilterPeriod).ToString(), DateTime.Today.ToString(), propType, objParam);
+                        return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddDays(-7 * _filterPeriod).ToString(), DateTime.Today.ToString(), propType, objParam);
 
                 case FilterEnum.FilterOperation.LastXMonths:
-                    if (FilterPeriod == 0)
+                    if (_filterPeriod == 0)
                         return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddMonths(-1).ToString(), DateTime.Today.ToString(), propType, objParam);
                     else
-                        return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddMonths(-1 * FilterPeriod).ToString(), DateTime.Today.ToString(), propType, objParam);
+                        return ExpressionHelper.GenerateBetweenValues(prop, DateTime.Today.AddMonths(-1 * _filterPeriod).ToString(), DateTime.Today.ToString(), propType, objParam);
 
                 default:
                     throw new ArgumentException("Could not decode Search Mode.  Did you add a new value to the enum, or send in Unknown?");
@@ -422,7 +394,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         {
             foreach (var i in DistinctPropertyValues)
                 i.IsChecked = false;
-            FilterText = string.Empty;
+            txtFilter.Text = string.Empty;
 
             DistinctPropertyValues.Clear();
         }
@@ -430,6 +402,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         {
             DistinctPropertyValues.Clear();
         }
+
         private void CalcControlVisibility()
         {
             if (CanUserFilter)
@@ -437,26 +410,24 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 cbOperation.Visibility = Visibility.Visible;
                 if (CanUserSelectDistinct)
                 {
-                    cbDistinctProperties.Visibility = System.Windows.Visibility.Visible;
-                    txtFilter.Visibility = System.Windows.Visibility.Collapsed;
+                    cbDistinctProperties.Visibility = Visibility.Visible;
+                    txtFilter.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    cbDistinctProperties.Visibility = System.Windows.Visibility.Collapsed;
-                    txtFilter.Visibility = System.Windows.Visibility.Visible;
+                    cbDistinctProperties.Visibility = Visibility.Collapsed;
+                    txtFilter.Visibility = Visibility.Visible;
                 }
             }
             else
             {
-                cbOperation.Visibility = System.Windows.Visibility.Collapsed;
-                cbDistinctProperties.Visibility = System.Windows.Visibility.Collapsed;
-                txtFilter.Visibility = System.Windows.Visibility.Collapsed;
+                cbOperation.Visibility = Visibility.Collapsed;
+                cbDistinctProperties.Visibility = Visibility.Collapsed;
+                txtFilter.Visibility = Visibility.Collapsed;
             }
         }
 
-
-
-        private void cbDistinctProperties_DropDownOpened(object sender, EventArgs e)
+        private void cbDistinctProperties_DropDownOpened(object sender, EventArgs args)
         {
             if (_boundColumnPropertyAccessor != null)
             {
@@ -487,7 +458,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                             Tag = obj,
                             IsChecked = false
                         };
-                        item.PropertyChanged += new PropertyChangedEventHandler(filter_PropertyChanged);
+                        item.PropertyChanged += new PropertyChangedEventHandler(Filter_PropertyChanged);
                         DistinctPropertyValues.Add(item);
                     }
                 }
@@ -502,33 +473,30 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 return obj.ToString();
         }
 
-        private void filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             var list = DistinctPropertyValues.Where(i => i.IsChecked).ToList();
             if (list.Count > 0)
             {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new();
                 foreach (var i in DistinctPropertyValues.Where(i => i.IsChecked))
                     sb.AppendFormat("{0}{1}", sb.Length > 0 ? "," : "", i);
-                FilterText = sb.ToString();
+                txtFilter.Text = sb.ToString();
             }
             else
             {
-                FilterText = string.Empty;
+                txtFilter.Text = string.Empty;
             }
-            OnPropertyChanged("FilterReadOnly");
-            OnPropertyChanged("FilterBackGround");
-            OnPropertyChanged("FilterOperationsEnabled");
+            //OnPropertyChanged("FilterReadOnly");
+            //OnPropertyChanged("FilterBackGround");
+            //OnPropertyChanged("FilterOperationsEnabled");
+            cbOperation.IsEnabled = _filterOperationsEnabled;
         }
-
-        #region IPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string p)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(p));
-        }
-        #endregion
 
         private void CbOperation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -541,30 +509,30 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     case "Last X Days":
                         if (Grid.IsFilterLoaded)
                         {
-                            FilterPeriod = Grid.LastX;
+                            _filterPeriod = Grid.LastX;
                         }
 
-                        ExecutePredicateGeneration(FilterPeriod.ToString());
+                        ExecutePredicateGeneration(_filterPeriod.ToString());
 
                         break;
 
                     case "Last X Months":
                         if (Grid.IsFilterLoaded)
                         {
-                            FilterPeriod = Grid.LastX;
+                            _filterPeriod = Grid.LastX;
                         }
 
-                        ExecutePredicateGeneration(FilterPeriod.ToString());
+                        ExecutePredicateGeneration(_filterPeriod.ToString());
 
                         break;
 
                     case "Last X Weeks":
                         if (Grid.IsFilterLoaded)
                         {
-                            FilterPeriod = Grid.LastX;
+                            _filterPeriod = Grid.LastX;
                         }
 
-                        ExecutePredicateGeneration(FilterPeriod.ToString());
+                        ExecutePredicateGeneration(_filterPeriod.ToString());
 
                         break;
                 }
@@ -573,19 +541,14 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 {
                     if (DoesFilterTextNeedToBeEmpty(filterOperationItem))
                     {
-                        FilterText = " ";
+                        txtFilter.Text = " ";
                     }
                 }
             }
         }
-        private bool DoesFilterTextNeedToBeEmpty(FilterOperationItem filterOperationItem)
-        {
-            if ((filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXDays || filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXWeeks || filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXMonths) && FilterPeriod == 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
+        private bool DoesFilterTextNeedToBeEmpty(FilterOperationItem filterOperationItem) =>
+            !((filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXDays || 
+            filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXWeeks ||
+            filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXMonths) && _filterPeriod == 0);
     }
 }

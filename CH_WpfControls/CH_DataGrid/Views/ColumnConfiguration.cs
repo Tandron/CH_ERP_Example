@@ -13,7 +13,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         #region Properties for setting via xaml
 
         public static readonly DependencyProperty CanUserFreezeProperty =
-    DependencyProperty.RegisterAttached("CanUserFreeze", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("CanUserFreeze", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
 
         public static void SetCanUserFreeze(DependencyObject element, object o)
         {
@@ -26,7 +26,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         }
 
         public static readonly DependencyProperty CanUserFilterProperty =
-DependencyProperty.RegisterAttached("CanUserFilter", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("CanUserFilter", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
 
         public static void SetCanUserFilter(DependencyObject element, object o)
         {
@@ -39,7 +39,7 @@ DependencyProperty.RegisterAttached("CanUserFilter", typeof(bool?), typeof(Colum
         }
 
         public static readonly DependencyProperty CanUserGroupProperty =
-DependencyProperty.RegisterAttached("CanUserGroup", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("CanUserGroup", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
 
         public static void SetCanUserGroup(DependencyObject element, object o)
         {
@@ -52,7 +52,7 @@ DependencyProperty.RegisterAttached("CanUserGroup", typeof(bool?), typeof(Column
         }
 
         public static readonly DependencyProperty CanUserSelectDistinctProperty =
-DependencyProperty.RegisterAttached("CanUserSelectDistinct", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("CanUserSelectDistinct", typeof(bool?), typeof(ColumnConfiguration), new PropertyMetadata(null));
 
         public static void SetCanUserSelectDistinct(DependencyObject element, object o)
         {
@@ -65,7 +65,7 @@ DependencyProperty.RegisterAttached("CanUserSelectDistinct", typeof(bool?), type
         }
 
         public static readonly DependencyProperty DefaultFilterProperty =
-DependencyProperty.RegisterAttached("DefaultFilter", typeof(string), typeof(ColumnConfiguration), new PropertyMetadata(null));
+            DependencyProperty.RegisterAttached("DefaultFilter", typeof(string), typeof(ColumnConfiguration), new PropertyMetadata(null));
 
         public static void SetDefaultFilter(DependencyObject element, object o)
         {

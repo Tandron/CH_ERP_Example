@@ -13,10 +13,10 @@ namespace CH_WpfControls.CH_DataGrid.Views
     /// </summary>
     public partial class ColumnOptionControl : UserControl
     {
-        private FilterOperationItem _addPin = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Pin Column", "../Images/PinUp.png");
-        private FilterOperationItem _addGroup = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Add Grouping", "../Images/GroupBy.png");
-        private FilterOperationItem _removePin = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Unpin Column", "../Images/pinDown.png");
-        private FilterOperationItem _removeGroup = new FilterOperationItem(FilterEnum.FilterOperation.Unknown, "Remove Grouping", "../Images/RemoveGroupBy.png");
+        private FilterOperationItem _addPin = new(FilterEnum.FilterOperation.Unknown, "Pin Column", "../Images/PinUp.png");
+        private FilterOperationItem _addGroup = new(FilterEnum.FilterOperation.Unknown, "Add Grouping", "../Images/GroupBy.png");
+        private FilterOperationItem _removePin = new(FilterEnum.FilterOperation.Unknown, "Unpin Column", "../Images/pinDown.png");
+        private FilterOperationItem _removeGroup = new(FilterEnum.FilterOperation.Unknown, "Remove Grouping", "../Images/RemoveGroupBy.png");
 
         public CH_DataGrid Grid { get; set; }
 
@@ -151,9 +151,9 @@ namespace CH_WpfControls.CH_DataGrid.Views
         internal void ResetVisibility()
         {
             if ((!CanUserGroup && !CanUserFreeze) || string.IsNullOrWhiteSpace(FilterColumnInfo.PropertyPath))
-                this.Visibility = System.Windows.Visibility.Collapsed;
+                Visibility = Visibility.Collapsed;
             else
-                this.Visibility = System.Windows.Visibility.Visible;
+                Visibility = Visibility.Visible;
         }
 
         private void cbOptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
