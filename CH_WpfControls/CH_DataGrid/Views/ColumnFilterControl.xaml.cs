@@ -116,7 +116,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
             }
         }
 
-        public PropertyChangedEventHandler PropertyChanged { get; internal set; }
+        public Action<ColumnFilterControl> FilterChanged;
 
         //private FilterOperationItem _SelectedFilterOperation;
         //public FilterOperationItem SelectedFilterOperation
@@ -304,6 +304,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         private void TxtFilter_KeyUp(object sender, KeyEventArgs args)
         {
             txtFilter.Text = ((TextBox)sender).Text;
+            FilterChanged?.Invoke(this);
         }
 
         public Predicate<object> GeneratePredicate()

@@ -1,8 +1,6 @@
-﻿using CH_WpfControls.CH_DataGrid.Helpers;
-using CH_WpfControls.CH_DataGrid.Views;
+﻿using CH_WpfControls.CH_DataGrid.Views;
 using System.Collections;
 using System.ComponentModel;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -23,7 +21,7 @@ namespace CH_WpfControls.CH_DataGrid
         public event FilterChangedEvent AfterFilterChanged;
 
         private List<ColumnOptionControl> _optionControls = new List<ColumnOptionControl>();
-        private PropertyChangedEventHandler _filterHandler;
+        private Action<ColumnFilterControl> _filterHandler;
 
         protected bool IsResetting { get; set; }
 
@@ -34,19 +32,17 @@ namespace CH_WpfControls.CH_DataGrid
 
         public int LastX { get; set; }
 
-        protected ICollectionView CollectionView
-        {
-            get { return this.ItemsSource as ICollectionView; }
-        }
+        protected ICollectionView? CollectionView => ItemsSource as ICollectionView;
+
         #region FilteredItemsSource DependencyProperty
         public static readonly DependencyProperty FilteredItemsSourceProperty =
-            DependencyProperty.Register("FilteredItemsSource", typeof(IEnumerable), typeof(CH_DataGrid),
-                new PropertyMetadata(null, new PropertyChangedCallback(OnFilteredItemsSourceChanged)));
+                DependencyProperty.Register("FilteredItemsSource", typeof(IEnumerable), typeof(CH_DataGrid),
+                    new PropertyMetadata(null, new PropertyChangedCallback(OnFilteredItemsSourceChanged)));
 
         public IEnumerable FilteredItemsSource
         {
-            get { return (IEnumerable)GetValue(FilteredItemsSourceProperty); }
-            set { SetValue(FilteredItemsSourceProperty, value); }
+            get => (IEnumerable)GetValue(FilteredItemsSourceProperty);
+            set => SetValue(FilteredItemsSourceProperty, value);
         }
 
         public static void OnFilteredItemsSourceChanged(object sender, DependencyPropertyChangedEventArgs args)
@@ -54,8 +50,10 @@ namespace CH_WpfControls.CH_DataGrid
             if (sender is CH_DataGrid cH_DataGrid)
             {
                 var list = (IEnumerable)args.NewValue;
-                var view = new CollectionViewSource();
-                view.Source = list;
+                var view = new CollectionViewSource
+                {
+                    Source = list
+                };
                 Type srcT = args.NewValue.GetType().GetInterfaces().First(i => i.Name.StartsWith("IEnumerable"));
                 cH_DataGrid.FilterType = srcT.GetGenericArguments().First();
                 cH_DataGrid.ItemsSource = CollectionViewSource.GetDefaultView(list);
@@ -171,7 +169,7 @@ namespace CH_WpfControls.CH_DataGrid
         #endregion Filter Properties
         public CH_DataGrid()
         {
-            _filterHandler = new PropertyChangedEventHandler(Filter_PropertyChanged);
+            _filterHandler = Filter_PropertyChanged;
             InitializeComponent();
             Style = GetStyle("DataGridStyle");
             CellStyle = GetStyle("DataGridCellStyle");
@@ -195,45 +193,40 @@ namespace CH_WpfControls.CH_DataGrid
         /// the new predicate used to filter the CollectionView.  Since Multiple Columns can have predicate we need to
         /// iterate over all registered OptionControls and get each predicate.
         /// </summary>
-        /// <param name="sender">The object which has risen the event</param>
-        /// <param name="e">The property which has been changed</param>
-        void Filter_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /// <param name="columnFilter">The property which has been changed</param>
+        private void Filter_PropertyChanged(ColumnFilterControl columnFilter)
         {
-            if (e.PropertyName == "FilterChanged")
+            Predicate<object>? predicate = null;
+            foreach (var filter in Filters)
+                if (filter.HasPredicate)
+                    if (predicate == null)
+                        predicate = filter.GeneratePredicate();
+                    else
+                        predicate = predicate.And(filter.GeneratePredicate());
+            bool canContinue = true;
+            var args = new CancelableFilterChangedEventArgs(predicate);
+            if (BeforeFilterChanged != null && !IsResetting)
             {
-                Predicate<object> predicate = null;
-                foreach (var filter in Filters)
-                    if (filter.HasPredicate)
-                        if (predicate == null)
-                            predicate = filter.GeneratePredicate();
-                        else
-                            predicate = predicate.And(filter.GeneratePredicate());
-                bool canContinue = true;
-                var args = new CancelableFilterChangedEventArgs(predicate);
-                if (BeforeFilterChanged != null && !IsResetting)
-                {
-                    BeforeFilterChanged(this, args);
-                    canContinue = !args.Cancel;
-                }
-                if (canContinue)
-                {
-                    ListCollectionView view = CollectionViewSource.GetDefaultView(this.ItemsSource) as ListCollectionView;
-                    if (view != null && view.IsEditingItem)
-                        view.CommitEdit();
-                    if (view != null && view.IsAddingNew)
-                        view.CommitNew();
-                    if (CollectionView != null)
-                        CollectionView.Filter = predicate;
-                    if (AfterFilterChanged != null)
-                        AfterFilterChanged(this, new FilterChangedEventArgs(predicate));
-                }
-                else
-                {
-                    IsResetting = true;
-                    var ctrl = sender as ColumnFilterControl;
-                    ctrl.ResetControl();
-                    IsResetting = false;
-                }
+                BeforeFilterChanged(this, args);
+                canContinue = !args.Cancel;
+            }
+            if (canContinue)
+            {
+                ListCollectionView? view = CollectionViewSource.GetDefaultView(this.ItemsSource) as ListCollectionView;
+                if (view != null && view.IsEditingItem)
+                    view.CommitEdit();
+                if (view != null && view.IsAddingNew)
+                    view.CommitNew();
+                if (CollectionView != null)
+                    CollectionView.Filter = predicate;
+                if (AfterFilterChanged != null)
+                    AfterFilterChanged(this, new FilterChangedEventArgs(predicate));
+            }
+            else
+            {
+                IsResetting = true;
+                columnFilter.ResetControl();
+                IsResetting = false;
             }
         }
 
@@ -241,45 +234,43 @@ namespace CH_WpfControls.CH_DataGrid
         {
             if (!Filters.Contains(ctrl))
             {
-                ctrl.PropertyChanged += _filterHandler;
+                ctrl.FilterChanged += _filterHandler;
                 Filters.Add(ctrl);
             }
         }
 
         public void FirePredicationGeneration()
         {
+            Predicate<object> predicate = null;
+            foreach (var filter in Filters)
+                if (filter.HasPredicate)
+                    if (predicate == null)
+                        predicate = filter.GeneratePredicate();
+                    else
+                        predicate = predicate.And(filter.GeneratePredicate());
+            bool canContinue = true;
+            CancelableFilterChangedEventArgs args = new(predicate);
+            if (BeforeFilterChanged != null && !IsResetting)
             {
-                Predicate<object> predicate = null;
-                foreach (var filter in Filters)
-                    if (filter.HasPredicate)
-                        if (predicate == null)
-                            predicate = filter.GeneratePredicate();
-                        else
-                            predicate = predicate.And(filter.GeneratePredicate());
-                bool canContinue = true;
-                var args = new CancelableFilterChangedEventArgs(predicate);
-                if (BeforeFilterChanged != null && !IsResetting)
-                {
-                    BeforeFilterChanged(this, args);
-                    canContinue = !args.Cancel;
-                }
-                if (canContinue)
-                {
-                    ListCollectionView view = CollectionViewSource.GetDefaultView(this.ItemsSource) as ListCollectionView;
-                    if (view != null && view.IsEditingItem)
-                        view.CommitEdit();
-                    if (view != null && view.IsAddingNew)
-                        view.CommitNew();
-                    if (CollectionView != null)
-                        CollectionView.Filter = predicate;
-                    if (AfterFilterChanged != null)
-                        AfterFilterChanged(this, new FilterChangedEventArgs(predicate));
-                }
-                else
-                {
-                    IsResetting = true;
-                    IsResetting = false;
-                }
+                BeforeFilterChanged(this, args);
+                canContinue = !args.Cancel;
+            }
+            if (canContinue)
+            {
+                ListCollectionView? view = CollectionViewSource.GetDefaultView(ItemsSource) as ListCollectionView;
+                if (view != null && view.IsEditingItem)
+                    view.CommitEdit();
+                if (view != null && view.IsAddingNew)
+                    view.CommitNew();
+                if (CollectionView != null)
+                    CollectionView.Filter = predicate;
+                if (AfterFilterChanged != null)
+                    AfterFilterChanged(this, new FilterChangedEventArgs(predicate));
+            }
+            else
+            {
+                IsResetting = true;
+                IsResetting = false;
             }
         }
 
@@ -291,7 +282,7 @@ namespace CH_WpfControls.CH_DataGrid
             {
                 foreach (var groupedCol in CollectionView.GroupDescriptions)
                 {
-                    var propertyGroup = groupedCol as PropertyGroupDescription;
+                    PropertyGroupDescription? propertyGroup = groupedCol as PropertyGroupDescription;
 
                     if (propertyGroup != null && propertyGroup.PropertyName == boundPropertyName)
                         return;
@@ -351,7 +342,7 @@ namespace CH_WpfControls.CH_DataGrid
         #endregion Grouping
         public List<T> GetVisualChildCollection<T>(object parent) where T : Visual
         {
-            List<T> visualCollection = new List<T>();
+            List<T> visualCollection = [];
             GetVisualChildCollection(parent as DependencyObject, visualCollection);
             return visualCollection;
         }
