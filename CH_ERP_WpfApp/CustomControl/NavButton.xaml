@@ -9,7 +9,7 @@
         <!-- Standard Button Colors-->
         <SolidColorBrush x:Key="StandardButtonBackground" Color="#1C536F" />
         <SolidColorBrush x:Key="StandardButtonForeground" Color="#FEFEFE" />
-        <SolidColorBrush x:Key="StandardButtonHighlight" Color="GreenYellow" />
+        <SolidColorBrush x:Key="StandardButtonHighlight" Color="#FFB2E87E" />
     </ToggleButton.Resources>
     <ToggleButton.Style>
         <!-- Standard Button Template-->
