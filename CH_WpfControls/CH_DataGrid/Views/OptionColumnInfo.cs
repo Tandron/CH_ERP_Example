@@ -22,7 +22,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
             var boundColumn = column as DataGridBoundColumn;
             if (boundColumn != null)
             {
-                System.Windows.Data.Binding binding = boundColumn.Binding as System.Windows.Data.Binding;
+                Binding binding = boundColumn.Binding as Binding;
                 if (binding != null && !string.IsNullOrWhiteSpace(binding.Path.Path))
                 {
                     System.Reflection.PropertyInfo propInfo = null;

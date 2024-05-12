@@ -197,24 +197,24 @@ namespace CH_WpfControls.CH_DataGrid.Views
             CanUserSelectDistinct = Grid.CanUserSelectDistinct;
 
 
-            if (column != null)
-            {
-                object oCanUserFilter = column.GetValue(ColumnConfiguration.CanUserFilterProperty);
-                if (oCanUserFilter != null)
-                    CanUserFilter = (bool)oCanUserFilter;
+            //if (column != null)
+            //{
+            //    object oCanUserFilter = column.GetValue(ColumnConfiguration.CanUserFilterProperty);
+            //    if (oCanUserFilter != null)
+            //        CanUserFilter = (bool)oCanUserFilter;
 
-                object oCanUserFreeze = column.GetValue(ColumnConfiguration.CanUserFreezeProperty);
-                if (oCanUserFreeze != null)
-                    CanUserFreeze = (bool)oCanUserFreeze;
+            //    object oCanUserFreeze = column.GetValue(ColumnConfiguration.CanUserFreezeProperty);
+            //    if (oCanUserFreeze != null)
+            //        CanUserFreeze = (bool)oCanUserFreeze;
 
-                object oCanUserGroup = column.GetValue(ColumnConfiguration.CanUserGroupProperty);
-                if (oCanUserGroup != null)
-                    CanUserGroup = (bool)oCanUserGroup;
+            //    object oCanUserGroup = column.GetValue(ColumnConfiguration.CanUserGroupProperty);
+            //    if (oCanUserGroup != null)
+            //        CanUserGroup = (bool)oCanUserGroup;
 
-                object oCanUserSelectDistinct = column.GetValue(ColumnConfiguration.CanUserSelectDistinctProperty);
-                if (oCanUserSelectDistinct != null)
-                    CanUserSelectDistinct = (bool)oCanUserSelectDistinct;
-            }
+            //    object oCanUserSelectDistinct = column.GetValue(ColumnConfiguration.CanUserSelectDistinctProperty);
+            //    if (oCanUserSelectDistinct != null)
+            //        CanUserSelectDistinct = (bool)oCanUserSelectDistinct;
+            //}
 
 
             if (Grid.FilterType == null)
@@ -435,7 +435,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 if (DistinctPropertyValues.Count == 0)
                 {
                     List<object> result = [];
-                    foreach (var i in Grid.FilteredItemsSource)
+                    foreach (var i in Grid.ItemsSource)
                     {
                         object value = _boundColumnPropertyAccessor(i);
                         if (value != null)

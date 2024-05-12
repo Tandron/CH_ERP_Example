@@ -15,13 +15,5 @@ namespace CH_PurchaseWpfModule.Views
             InitializeComponent();
             DataContext = new PurchaseMainViewModel(eventAggregator);
         }
-
-        private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs args)
-        {
-            if (args.NewValue is PurchaseMainViewModel purchaseMainVm)
-            {
-                dataGrid1.FilteredItemsSource = purchaseMainVm.CompanyPurchasesVm;
-            }
-        }
     }
 }

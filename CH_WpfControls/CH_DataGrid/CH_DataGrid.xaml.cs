@@ -55,6 +55,7 @@ namespace CH_WpfControls.CH_DataGrid
                     Source = list
                 };
                 Type srcT = args.NewValue.GetType().GetInterfaces().First(i => i.Name.StartsWith("IEnumerable"));
+
                 cH_DataGrid.FilterType = srcT.GetGenericArguments().First();
                 cH_DataGrid.ItemsSource = CollectionViewSource.GetDefaultView(list);
                 if (cH_DataGrid.Filters != null)
@@ -475,6 +476,20 @@ namespace CH_WpfControls.CH_DataGrid
                 {
                     GetVisualChildCollection(child, visualCollection);
                 }
+            }
+        }
+
+        private void ColumnFilterControl_Loaded(object sender, RoutedEventArgs args)
+        {
+            return;
+            if (sender is ColumnFilterControl columnFilter)
+            {
+
+                columnFilter.CanUserFilter = CanUserFilter;
+                columnFilter.CanUserFreeze = CanUserFreeze;
+                columnFilter.CanUserGroup = CanUserGroup;
+                columnFilter.CanUserSelectDistinct = CanUserSelectDistinct;
+                columnFilter.Grid = this;
             }
         }
     }

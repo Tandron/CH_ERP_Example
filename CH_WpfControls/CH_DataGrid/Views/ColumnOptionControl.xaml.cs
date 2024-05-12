@@ -13,10 +13,10 @@ namespace CH_WpfControls.CH_DataGrid.Views
     /// </summary>
     public partial class ColumnOptionControl : UserControl
     {
-        private FilterOperationItem _addPin = new(FilterEnum.FilterOperation.Unknown, "Pin Column", "../Images/PinUp.png");
-        private FilterOperationItem _addGroup = new(FilterEnum.FilterOperation.Unknown, "Add Grouping", "../Images/GroupBy.png");
-        private FilterOperationItem _removePin = new(FilterEnum.FilterOperation.Unknown, "Unpin Column", "../Images/pinDown.png");
-        private FilterOperationItem _removeGroup = new(FilterEnum.FilterOperation.Unknown, "Remove Grouping", "../Images/RemoveGroupBy.png");
+        private readonly FilterOperationItem _addPin = new(FilterEnum.FilterOperation.Unknown, "Pin Column", "../Images/PinUp.png");
+        private readonly FilterOperationItem _addGroup = new(FilterEnum.FilterOperation.Unknown, "Add Grouping", "../Images/GroupBy.png");
+        private readonly FilterOperationItem _removePin = new(FilterEnum.FilterOperation.Unknown, "Unpin Column", "../Images/pinDown.png");
+        private readonly FilterOperationItem _removeGroup = new(FilterEnum.FilterOperation.Unknown, "Remove Grouping", "../Images/RemoveGroupBy.png");
 
         public CH_DataGrid Grid { get; set; }
 

@@ -9,7 +9,7 @@
         <!-- Standard Button Colors-->
         <SolidColorBrush x:Key="StandardButtonBackground" Color="#1C536F" />
         <SolidColorBrush x:Key="StandardButtonForeground" Color="#FEFEFE" />
-        <SolidColorBrush x:Key="StandardButtonHighlight" Color="#FFB2E87E" />
+        <SolidColorBrush x:Key="StandardButtonHighlight" Color="GreenYellow" />
     </ToggleButton.Resources>
     <ToggleButton.Style>
         <!-- Standard Button Template-->
@@ -30,10 +30,10 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DarkGoldenrod"/>
+                    <Setter Property="Background" Value="OliveDrab"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="DarkGoldenrod"/>
+                    <Setter Property="Background" Value="OliveDrab"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
