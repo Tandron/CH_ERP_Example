@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace CH_WpfControls.CH_DataGrid.Views
+namespace CH_WpfControls.CH_DataGrid
 {
     public class CH_GridColumn : DataGridBoundColumn
     {

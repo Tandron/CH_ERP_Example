@@ -16,48 +16,20 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <chDataGrid:CH_DataGrid Grid.Row="0" AutoGenerateColumns="True" CanUserSelectDistinct="True"
+            <chDataGrid:CH_DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserSelectDistinct="True"
                                     GridLinesVisibility="All" SelectionMode="Extended" SelectionUnit="Cell" FontSize="12"
                                     AlternatingRowBackground="Gainsboro"
-                                    CanUserFilter="True" Margin="0,25,0,0" FilteredItemsSource="{Binding CompanyPurchasesVm}"/>
-
-            <!--<TextBlock Grid.Row="0" Foreground="White" Text="Einkauf" FontSize="20" TextAlignment="Center" />-->
-            <!--<chDataGrid:CH_DataGrid Grid.Row="0" Margin="4" ItemsSource="{Binding CompanyPurchasesVm}" AutoGenerateColumns="False" TabIndex="1" 
-                                    SelectionMode="Single" SelectedItem="{Binding SelectedCompanyPurchaseItemVm}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Firma" Width="140" Binding="{Binding CompanyName,Mode=OneWay}">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="HorizontalAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Straße" Width="180" Binding="{Binding Street,Mode=OneWay}">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="HorizontalAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Stadt" Binding="{Binding City,Mode=OneWay}">
-                        <DataGridTextColumn.HeaderStyle>
-                            <Style TargetType="DataGridColumnHeader">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            </Style>
-                        </DataGridTextColumn.HeaderStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-            </chDataGrid:CH_DataGrid>-->
+                                    CanUserFilter="True" Margin="0,25,0,0" FilteredItemsSource="{Binding CompanyPurchasesVm}">
+                <chDataGrid:CH_DataGrid.Columns>
+                    <chDataGrid:CH_GridColumn Header="Firma" Width="220" Binding="{Binding CompanyName,Mode=OneWay}"/>
+                    <chDataGrid:CH_GridColumn Header="Straße" Width="220" Binding="{Binding Street,Mode=OneWay}"/>
+                    <chDataGrid:CH_GridColumn Header="Postleitzahl" Width="80" Binding="{Binding PostalCode,Mode=OneWay}"/>
+                    <chDataGrid:CH_GridColumn Header="Stadt" Width="140" Binding="{Binding City,Mode=OneWay}"/>
+                    <chDataGrid:CH_GridColumn Header="Land" Width="140" Binding="{Binding Country,Mode=OneWay}"/>
+                    <chDataGrid:CH_GridColumn Header="Telefonnummer" Width="140" Binding="{Binding PhoneNumber,Mode=OneWay}"/>
+                    <chDataGrid:CH_GridColumn Header="Datum" Width="140" Binding="{Binding PurchaseDate,Mode=OneWay}"/>
+                </chDataGrid:CH_DataGrid.Columns>
+            </chDataGrid:CH_DataGrid>
         </Grid>
     </GroupBox>
 </UserControl>
