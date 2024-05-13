@@ -18,7 +18,7 @@
 
             <chDataGrid:CH_DataGrid Grid.Row="0" AutoGenerateColumns="True" CanUserSelectDistinct="True"
                                     GridLinesVisibility="All" SelectionMode="Extended" SelectionUnit="Cell" FontSize="12"
-                                    AlternatingRowBackground="Coral"
+                                    AlternatingRowBackground="Gainsboro"
                                     CanUserFilter="True" Margin="0,25,0,0" FilteredItemsSource="{Binding CompanyPurchasesVm}"/>
 
             <!--<TextBlock Grid.Row="0" Foreground="White" Text="Einkauf" FontSize="20" TextAlignment="Center" />-->

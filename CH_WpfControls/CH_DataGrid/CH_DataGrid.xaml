@@ -27,6 +27,42 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF448DCA" Storyboard.TargetProperty="(Fill).Color" Storyboard.TargetName="BackgroundRectangle" />
+                                            <ColorAnimation Duration="0" To="#7FFFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[3].Color" Storyboard.TargetName="BackgroundGradient" />
+                                            <ColorAnimation Duration="0" To="#CCFFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[2].Color" Storyboard.TargetName="BackgroundGradient" />
+                                            <ColorAnimation Duration="0" To="#F2FFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[1].Color" Storyboard.TargetName="BackgroundGradient" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF448DCA" Storyboard.TargetProperty="(Fill).Color" Storyboard.TargetName="BackgroundRectangle" />
+                                            <ColorAnimation Duration="0" To="#D8FFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[0].Color" Storyboard.TargetName="BackgroundGradient" />
+                                            <ColorAnimation Duration="0" To="#C6FFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[1].Color" Storyboard.TargetName="BackgroundGradient" />
+                                            <ColorAnimation Duration="0" To="#8CFFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[2].Color" Storyboard.TargetName="BackgroundGradient" />
+                                            <ColorAnimation Duration="0" To="#3FFFFFFF" Storyboard.TargetProperty="(Fill).(GradientStops)[3].Color" Storyboard.TargetName="BackgroundGradient" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SortStates">
+                                    <VisualState x:Name="Unsorted" />
+                                    <VisualState x:Name="SortAscending">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1.0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="sortIcon" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SortDescending">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1.0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="sortIcon" />
+                                            <DoubleAnimation Duration="0" To="-.9" Storyboard.TargetProperty="(RenderTransform).ScaleY" Storyboard.TargetName="sortIcon" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Rectangle x:Name="BackgroundRectangle" Grid.ColumnSpan="2" Fill="#FF1F3B53" Stretch="Fill" />
                             <Rectangle x:Name="BackgroundGradient" Grid.ColumnSpan="2" Stretch="Fill">
                                 <Rectangle.Fill>
@@ -56,7 +92,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" />
-                                <Path x:Name="SortIcon" Grid.Column="1" Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z " Fill="#FF444444"
+                                <Path x:Name="sortIcon" Grid.Column="1" Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z " Fill="#FF444444"
                                       HorizontalAlignment="Right" Margin="4,0,0,0" Opacity="0" RenderTransformOrigin=".5,.5" Stretch="Uniform"
                                       VerticalAlignment="Center" Width="8">
                                     <Path.RenderTransform>

@@ -141,7 +141,6 @@ namespace CH_WpfControls.CH_DataGrid.Views
             return result;
         }
 
-
         private void ColumnFilterControl_Loaded(object sender, RoutedEventArgs e)
         {
             DataGridColumn? column = null;
