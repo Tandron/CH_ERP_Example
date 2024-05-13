@@ -17,7 +17,7 @@
             </Grid.RowDefinitions>
 
             <chDataGrid:CH_DataGrid Grid.Row="0" AutoGenerateColumns="False" CanUserSelectDistinct="True"
-                                    GridLinesVisibility="All" SelectionMode="Extended" SelectionUnit="Cell" FontSize="12"
+                                    GridLinesVisibility="All" SelectionMode="Extended" FontSize="12"
                                     AlternatingRowBackground="Gainsboro"
                                     CanUserFilter="True" Margin="0,25,0,0" FilteredItemsSource="{Binding CompanyPurchasesVm}">
                 <chDataGrid:CH_DataGrid.Columns>

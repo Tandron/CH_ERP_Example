@@ -2,6 +2,7 @@
 using CH_WpfControls.CH_DataGrid.Helpers;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using LinExp = System.Linq.Expressions;
 using System.Linq.Expressions;
 using System.Text;
 using System.Windows;
@@ -17,7 +18,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
     /// </summary>
     public partial class ColumnFilterControl : UserControl
     {
-        private Func<object, object> _boundColumnPropertyAccessor;
+        private Func<object, object>? _boundColumnPropertyAccessor;
 
         private int _filterPeriod;
 
@@ -141,7 +142,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
             return result;
         }
 
-        private void ColumnFilterControl_Loaded(object sender, RoutedEventArgs e)
+        private void ColumnFilterControl_Loaded(object sender, RoutedEventArgs args)
         {
             DataGridColumn? column = null;
             DataGridColumnHeader? colHeader = null;
@@ -224,11 +225,11 @@ namespace CH_WpfControls.CH_DataGrid.Views
                         throw new ArgumentException(string.Format("This version of the grid does not support a nested property path such as '{0}'.  Please make a first-level property for filtering and bind to that.", FilterColumnInfo.PropertyPath));
 
                     Visibility = Visibility.Visible;
-                    ParameterExpression arg = System.Linq.Expressions.Expression.Parameter(typeof(object), "x");
-                    System.Linq.Expressions.Expression expr = System.Linq.Expressions.Expression.Convert(arg, Grid.FilterType);
-                    expr = System.Linq.Expressions.Expression.Property(expr, Grid.FilterType, FilterColumnInfo.PropertyPath);
-                    System.Linq.Expressions.Expression conversion = System.Linq.Expressions.Expression.Convert(expr, typeof(object));
-                    _boundColumnPropertyAccessor = System.Linq.Expressions.Expression.Lambda<Func<object, object>>(conversion, arg).Compile();
+                    ParameterExpression arg = LinExp.Expression.Parameter(typeof(object), "x");
+                    LinExp.Expression expr = LinExp.Expression.Convert(arg, Grid.FilterType);
+                    expr = LinExp.Expression.Property(expr, Grid.FilterType, FilterColumnInfo.PropertyPath);
+                    LinExp.Expression conversion = LinExp.Expression.Convert(expr, typeof(object));
+                    _boundColumnPropertyAccessor = LinExp.Expression.Lambda<Func<object, object>>(conversion, arg).Compile();
                 }
                 else
                 {
@@ -238,10 +239,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 if (oDefaultFilter != null)
                     txtFilter.Text = (string)oDefaultFilter;
             }
-
             CalcControlVisibility();
-
-
         }
 
         private void ExecutePredicateGeneration(string value)
@@ -256,9 +254,9 @@ namespace CH_WpfControls.CH_DataGrid.Views
             FilterChanged?.Invoke(this);
         }
 
-        public Predicate<object> GeneratePredicate()
+        public Predicate<object>? GeneratePredicate()
         {
-            Predicate<object> predicate = null;
+            Predicate<object>? predicate = null;
 
             if (cbOperation.SelectedItem is FilterOperationItem filterOperationItem)
             {
@@ -285,10 +283,10 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
         protected Predicate<object> GenerateFilterPredicate(string propertyName, string filterValue, Type objType, Type propType, FilterOperationItem filterItem)
         {
-            ParameterExpression objParam = System.Linq.Expressions.Expression.Parameter(typeof(object), "x");
-            UnaryExpression param = System.Linq.Expressions.Expression.TypeAs(objParam, objType);
-            var prop = System.Linq.Expressions.Expression.Property(param, propertyName);
-            var val = System.Linq.Expressions.Expression.Constant(filterValue);
+            ParameterExpression objParam = LinExp.Expression.Parameter(typeof(object), "x");
+            UnaryExpression param = LinExp.Expression.TypeAs(objParam, objType);
+            var prop = LinExp.Expression.Property(param, propertyName);
+            var val = LinExp.Expression.Constant(filterValue);
 
             switch (filterItem.FilterOption)
             {
@@ -348,6 +346,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
             DistinctPropertyValues.Clear();
         }
+
         public void ResetDistinctList()
         {
             DistinctPropertyValues.Clear();
@@ -432,6 +431,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             var list = DistinctPropertyValues.Where(i => i.IsChecked).ToList();
+
             if (list.Count > 0)
             {
                 StringBuilder sb = new();
@@ -443,18 +443,13 @@ namespace CH_WpfControls.CH_DataGrid.Views
             {
                 txtFilter.Text = string.Empty;
             }
-            //OnPropertyChanged("FilterReadOnly");
-            //OnPropertyChanged("FilterBackGround");
-            //OnPropertyChanged("FilterOperationsEnabled");
             cbOperation.IsEnabled = _filterOperationsEnabled;
         }
 
-        private void CbOperation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CbOperation_SelectionChanged(object sender, SelectionChangedEventArgs args)
         {
-            if (e.AddedItems.Count > 0)
+            if (args.AddedItems.Count > 0 && args.AddedItems[0] is FilterOperationItem filterOperationItem)
             {
-                var filterOperationItem = e.AddedItems[0] as FilterOperationItem;
-
                 switch (filterOperationItem.Description)
                 {
                     case "Last X Days":
@@ -496,7 +491,9 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     }
                 }
             }
+            FilterChanged?.Invoke(this);
         }
+
         private bool DoesFilterTextNeedToBeEmpty(FilterOperationItem filterOperationItem) =>
             !((filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXDays || 
             filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXWeeks ||
