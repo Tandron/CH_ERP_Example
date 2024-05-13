@@ -86,26 +86,6 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
         public Action<ColumnFilterControl> FilterChanged;
 
-        //private FilterOperationItem _SelectedFilterOperation;
-        //public FilterOperationItem SelectedFilterOperation
-        //{
-        //    get
-        //    {
-        //        if (DistinctPropertyValues.Where(i => i.IsChecked).Count() > 0)
-        //            return FilterOperations.Where(f => f.FilterOption == FilterEnum.FilterOperation.Equals).FirstOrDefault();
-        //        return _SelectedFilterOperation;
-        //    }
-        //    set
-        //    {
-        //        if (value != _SelectedFilterOperation)
-        //        {
-        //            _SelectedFilterOperation = value;
-        //            OnPropertyChanged("SelectedFilterOperation");
-        //            OnPropertyChanged("FilterChanged");
-        //        }
-        //    }
-        //}
-
         public ColumnFilterControl()
         {
             InitializeComponent();
@@ -386,7 +366,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                         foreach (var item in Grid.ItemsSource)
                         {
                             if (item == CollectionView.NewItemPlaceholder)
-                                break;
+                                continue;
                             object value = _boundColumnPropertyAccessor(item);
 
                             if (value != null)
