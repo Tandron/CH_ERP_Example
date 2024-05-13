@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Data;
 
 namespace CH_WpfControls.CH_DataGrid.Views
 {
@@ -71,10 +72,6 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 Visibility = value;
             }
         }
-
-        private bool FilterReadOnly => DistinctPropertyValues.Any(i => i.IsChecked);
-
-        private bool _filterOperationsEnabled => !DistinctPropertyValues.Any(i => i.IsChecked);
 
         public Brush FilterBackGround
         {
@@ -265,16 +262,16 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     foreach (var item in DistinctPropertyValues.Where(i => i.IsChecked))
                     {
                         if (predicate == null)
-                            predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.Tag.ToString(), Grid.FilterType, 
+                            predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.Tag.ToString(), Grid.FilterType,
                                 FilterColumnInfo.PropertyType, filterOperationItem);
                         else
-                            predicate = predicate.Or(GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.Tag.ToString(), 
+                            predicate = predicate.Or(GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.Tag.ToString(),
                                 Grid.FilterType, FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem));
                     }
                 }
                 else
                 {
-                    predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, txtFilter.Text, Grid.FilterType, 
+                    predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, txtFilter.Text, Grid.FilterType,
                         FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem);
                 }
             }
@@ -383,15 +380,19 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 if (DistinctPropertyValues.Count == 0)
                 {
                     List<object> result = [];
-                    foreach (var i in Grid.ItemsSource)
-                    {
-                        object value = _boundColumnPropertyAccessor(i);
-                        if (value != null)
-                            if (result.Where(o => o.ToString() == value.ToString()).Count() == 0)
-                                result.Add(value);
-                    }
+
                     try
                     {
+                        foreach (var item in Grid.ItemsSource)
+                        {
+                            if (item == CollectionView.NewItemPlaceholder)
+                                break;
+                            object value = _boundColumnPropertyAccessor(item);
+
+                            if (value != null)
+                                if (!result.Where(o => o.ToString() == value.ToString()).Any())
+                                    result.Add(value);
+                        }
                         result.Sort();
                     }
                     catch
@@ -430,20 +431,24 @@ namespace CH_WpfControls.CH_DataGrid.Views
         /// <param name="args"></param>
         private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            var list = DistinctPropertyValues.Where(i => i.IsChecked).ToList();
+            if (sender is CheckboxComboItem checkboxComboItem)
+            {
+                var list = DistinctPropertyValues.Where(i => i.IsChecked).ToList();
 
-            if (list.Count > 0)
-            {
-                StringBuilder sb = new();
-                foreach (var i in DistinctPropertyValues.Where(i => i.IsChecked))
-                    sb.AppendFormat("{0}{1}", sb.Length > 0 ? "," : "", i);
-                txtFilter.Text = sb.ToString();
+                if (list.Count > 0)
+                {
+                    StringBuilder sb = new();
+                    foreach (var i in DistinctPropertyValues.Where(i => i.IsChecked))
+                        sb.AppendFormat("{0}{1}", sb.Length > 0 ? "," : "", i);
+                    txtFilter.Text = sb.ToString();
+                }
+                else
+                {
+                    txtFilter.Text = string.Empty;
+                }
+                cbOperation.IsEnabled = checkboxComboItem.IsChecked;
+                FilterChanged?.Invoke(this);
             }
-            else
-            {
-                txtFilter.Text = string.Empty;
-            }
-            cbOperation.IsEnabled = _filterOperationsEnabled;
         }
 
         private void CbOperation_SelectionChanged(object sender, SelectionChangedEventArgs args)
@@ -495,7 +500,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
         }
 
         private bool DoesFilterTextNeedToBeEmpty(FilterOperationItem filterOperationItem) =>
-            !((filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXDays || 
+            !((filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXDays ||
             filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXWeeks ||
             filterOperationItem.FilterOption == FilterEnum.FilterOperation.LastXMonths) && _filterPeriod == 0);
     }
