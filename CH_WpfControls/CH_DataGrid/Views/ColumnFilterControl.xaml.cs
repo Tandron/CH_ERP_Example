@@ -31,46 +31,16 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
         public CH_DataGrid Grid { get; set; }
 
-        private bool _CanUserFreeze = true;
-        public bool CanUserFreeze
-        {
-            get
-            {
-                return _CanUserFreeze;
-            }
-            set
-            {
-                _CanUserFreeze = value;
-                Grid.UpdateColumnOptionControl(this);
-                //OnPropertyChanged("CanUserFreeze");
-            }
-        }
-
-        private bool _CanUserGroup;
-        public bool CanUserGroup
-        {
-            get
-            {
-                return _CanUserGroup;
-            }
-            set
-            {
-                _CanUserGroup = value;
-                Grid.UpdateColumnOptionControl(this);
-                //OnPropertyChanged("CanUserGroup");
-            }
-        }
-
-        private bool _CanUserFilter = true;
+        private bool _canUserFilter = true;
         public bool CanUserFilter
         {
             get
             {
-                return _CanUserFilter;
+                return _canUserFilter;
             }
             set
             {
-                _CanUserFilter = value;
+                _canUserFilter = value;
                 CalcControlVisibility();
             }
         }
@@ -174,50 +144,30 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
         private void ColumnFilterControl_Loaded(object sender, RoutedEventArgs e)
         {
-            DataGridColumn column = null;
-            DataGridColumnHeader colHeader = null;
+            DataGridColumn? column = null;
+            DataGridColumnHeader? colHeader = null;
 
             UIElement parent = (UIElement)VisualTreeHelper.GetParent(this);
             while (parent != null)
             {
                 parent = (UIElement)VisualTreeHelper.GetParent(parent);
-                if (colHeader == null)
-                    colHeader = parent as DataGridColumnHeader;
+                if (colHeader == null && parent is DataGridColumnHeader dataGridColumnHeader)
+                    colHeader = dataGridColumnHeader;
 
-                if (Grid == null)
-                    Grid = parent as CH_DataGrid;
+                if (Grid == null && parent is CH_DataGrid cH_DataGrid)
+                    Grid = cH_DataGrid;
             }
 
             if (colHeader != null)
                 column = colHeader.Column;
 
+            if (Grid == null)
+                return;
+
             CanUserFilter = Grid.CanUserFilter;
-            CanUserFreeze = Grid.CanUserFreeze;
-            CanUserGroup = Grid.CanUserGroup;
             CanUserSelectDistinct = Grid.CanUserSelectDistinct;
 
-
-            //if (column != null)
-            //{
-            //    object oCanUserFilter = column.GetValue(ColumnConfiguration.CanUserFilterProperty);
-            //    if (oCanUserFilter != null)
-            //        CanUserFilter = (bool)oCanUserFilter;
-
-            //    object oCanUserFreeze = column.GetValue(ColumnConfiguration.CanUserFreezeProperty);
-            //    if (oCanUserFreeze != null)
-            //        CanUserFreeze = (bool)oCanUserFreeze;
-
-            //    object oCanUserGroup = column.GetValue(ColumnConfiguration.CanUserGroupProperty);
-            //    if (oCanUserGroup != null)
-            //        CanUserGroup = (bool)oCanUserGroup;
-
-            //    object oCanUserSelectDistinct = column.GetValue(ColumnConfiguration.CanUserSelectDistinctProperty);
-            //    if (oCanUserSelectDistinct != null)
-            //        CanUserSelectDistinct = (bool)oCanUserSelectDistinct;
-            //}
-
-
-            if (Grid.FilterType == null)
+            if (Grid.FilterType == null || column == null)
                 return;
 
             FilterColumnInfo = new OptionColumnInfo(column, Grid.FilterType);

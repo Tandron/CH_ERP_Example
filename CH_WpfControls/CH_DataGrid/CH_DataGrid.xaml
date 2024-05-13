@@ -4,8 +4,7 @@
           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
           xmlns:views="clr-namespace:CH_WpfControls.CH_DataGrid.Views"
-          xmlns:dg="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-          mc:Ignorable="d" Name="this"
+          mc:Ignorable="d"
           d:DesignHeight="450" d:DesignWidth="800">
     <DataGrid.Resources>
         <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -19,7 +18,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="DataGridColumnHeader">
-                        <Grid x:Name="Root">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition />
                                 <RowDefinition />
@@ -55,12 +54,9 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <views:ColumnOptionControl Height="13" Width="13" />
-
-                                <ContentPresenter Grid.Column="1" Content="{TemplateBinding Content}" />
-                                <Path x:Name="SortIcon" Grid.Column="2" Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z " Fill="#FF444444"
+                                <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" />
+                                <Path x:Name="SortIcon" Grid.Column="1" Data="F1 M -5.215,6.099L 5.215,6.099L 0,0L -5.215,6.099 Z " Fill="#FF444444"
                                       HorizontalAlignment="Right" Margin="4,0,0,0" Opacity="0" RenderTransformOrigin=".5,.5" Stretch="Uniform"
                                       VerticalAlignment="Center" Width="8">
                                     <Path.RenderTransform>
@@ -71,7 +67,7 @@
                             <Rectangle x:Name="VerticalSeparator" Grid.Column="1" Fill="{TemplateBinding SeparatorBrush}" 
                                        Visibility="{TemplateBinding SeparatorVisibility}" VerticalAlignment="Stretch" Width="1" />
                             <Border Visibility="Visible" BorderBrush="#FFC9CACA" BorderThickness="0,1,1,0" Margin="0" Grid.Row="1" Grid.ColumnSpan="2">
-                                <views:ColumnFilterControl Margin="0,0,0,1" Loaded="ColumnFilterControl_Loaded"/>
+                                <views:ColumnFilterControl Margin="0,0,0,1"/>
                             </Border>
                         </Grid>
                     </ControlTemplate>

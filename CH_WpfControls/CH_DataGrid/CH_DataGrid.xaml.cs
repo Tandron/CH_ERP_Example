@@ -3,9 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace CH_WpfControls.CH_DataGrid
 {
@@ -20,7 +18,6 @@ namespace CH_WpfControls.CH_DataGrid
         public event CancelableFilterChangedEvent BeforeFilterChanged;
         public event FilterChangedEvent AfterFilterChanged;
 
-        private List<ColumnOptionControl> _optionControls = new List<ColumnOptionControl>();
         private Action<ColumnFilterControl> _filterHandler;
 
         protected bool IsResetting { get; set; }
@@ -65,68 +62,6 @@ namespace CH_WpfControls.CH_DataGrid
         }
         #endregion
 
-        #region Grouping Properties
-
-        [Bindable(false)]
-        [Category("Appearance")]
-        [DefaultValue("False")]
-        private bool _collapseLastGroup = false;
-        public bool CollapseLastGroup
-        {
-            get { return _collapseLastGroup; }
-            set
-            {
-                if (_collapseLastGroup != value)
-                {
-                    _collapseLastGroup = value;
-                    OnPropertyChanged("CollapseLastGroup");
-                }
-            }
-        }
-
-        [Bindable(false)]
-        [Category("Appearance")]
-        [DefaultValue("False")]
-        private bool _canUserGroup = false;
-        public bool CanUserGroup
-        {
-            get { return _canUserGroup; }
-            set
-            {
-                if (_canUserGroup != value)
-                {
-                    _canUserGroup = value;
-                    OnPropertyChanged("CanUserGroup");
-                    foreach (var optionControl in Filters)
-                        optionControl.CanUserGroup = _canUserGroup;
-                }
-            }
-        }
-
-        #endregion Grouping Properties
-
-        #region Freezing Properties
-
-        [Bindable(false)]
-        [Category("Appearance")]
-        [DefaultValue("False")]
-        private bool _canUserFreeze = false;
-        public bool CanUserFreeze
-        {
-            get { return _canUserFreeze; }
-            set
-            {
-                if (_canUserFreeze != value)
-                {
-                    _canUserFreeze = value;
-                    OnPropertyChanged("CanUserFreeze");
-                    foreach (var optionControl in Filters)
-                        optionControl.CanUserFreeze = _canUserFreeze;
-                }
-            }
-        }
-
-        #endregion Freezing Properties
 
         #region Filter Properties
 
@@ -179,7 +114,7 @@ namespace CH_WpfControls.CH_DataGrid
             //Jib.WPF.Testbed shows an example that conforms to the MahApps Teal light theme
         }
 
-        static public Style GetStyle(string keyName)
+        static public Style? GetStyle(string keyName)
         {
             object resource = Application.Current.TryFindResource(keyName);
             if (resource != null && resource.GetType() == typeof(Style))
@@ -341,28 +276,22 @@ namespace CH_WpfControls.CH_DataGrid
                 CollectionView.GroupDescriptions.Clear();
         }
         #endregion Grouping
-        public List<T> GetVisualChildCollection<T>(object parent) where T : Visual
-        {
-            List<T> visualCollection = [];
-            GetVisualChildCollection(parent as DependencyObject, visualCollection);
-            return visualCollection;
-        }
 
         #region Freezing
 
         public void FreezeColumn(DataGridColumn column)
         {
-            if (this.Columns != null && this.Columns.Contains(column))
+            if (Columns != null && Columns.Contains(column))
             {
-                column.DisplayIndex = this.FrozenColumnCount;
-                this.FrozenColumnCount++;
+                column.DisplayIndex = FrozenColumnCount;
+                FrozenColumnCount++;
             }
         }
         public bool IsFrozenColumn(DataGridColumn column)
         {
-            if (this.Columns != null && this.Columns.Contains(column))
+            if (Columns != null && Columns.Contains(column))
             {
-                return column.DisplayIndex < this.FrozenColumnCount;
+                return column.DisplayIndex < FrozenColumnCount;
             }
             else
             {
@@ -371,10 +300,10 @@ namespace CH_WpfControls.CH_DataGrid
         }
         public void UnFreezeColumn(DataGridColumn column)
         {
-            if (this.FrozenColumnCount > 0 && column.IsFrozen && this.Columns != null && this.Columns.Contains(column))
+            if (FrozenColumnCount > 0 && column.IsFrozen && Columns != null && Columns.Contains(column))
             {
-                this.FrozenColumnCount--;
-                column.DisplayIndex = this.FrozenColumnCount;
+                FrozenColumnCount--;
+                column.DisplayIndex = FrozenColumnCount;
             }
         }
 
@@ -404,8 +333,6 @@ namespace CH_WpfControls.CH_DataGrid
             if (ctrl != null)
             {
                 ctrl.CanUserSelectDistinct = canUserSelectDistinct;
-                ctrl.CanUserGroup = canUserGroup;
-                ctrl.CanUserFreeze = canUserFreeze;
                 ctrl.CanUserFilter = canUserFilter;
             }
         }
@@ -416,18 +343,6 @@ namespace CH_WpfControls.CH_DataGrid
                 optionControl.ResetDistinctList();
         }
 
-        internal void RegisterColumnOptionControl(ColumnOptionControl columnOptionControl)
-        {
-            _optionControls.Add(columnOptionControl);
-        }
-        internal void UpdateColumnOptionControl(ColumnFilterControl columnFilterControl)
-        {
-            //Since visibility for column contrls is set off the ColumnFilterControl by the base grid, we need to 
-            //update the ColumnOptionControl since it is a seperate object.
-            var ctrl = _optionControls.Where(c => c.FilterColumnInfo != null && columnFilterControl.FilterColumnInfo != null && c.FilterColumnInfo.Column == columnFilterControl.FilterColumnInfo.Column).FirstOrDefault();
-            if (ctrl != null)
-                ctrl.ResetVisibility();
-        }
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -439,59 +354,6 @@ namespace CH_WpfControls.CH_DataGrid
         }
 
         #endregion
-
-
-
-        private int GetColumnHeaderIndexFromColumn(DataGridColumn column)
-        {
-            List<DataGridColumnHeader> columnHeaders = GetVisualChildCollection<DataGridColumnHeader>(this).Where(c => c.Visibility == Visibility.Visible).ToList();
-            int counter = 0;
-
-            foreach (DataGridColumnHeader columnHeader in columnHeaders)
-            {
-                if (columnHeader.Column == column)
-                {
-                    return counter;
-                }
-
-                if (columnHeader.Column != null)
-                {
-                    counter++;
-                }
-            }
-            return counter;
-        }
-
-        private void GetVisualChildCollection<T>(DependencyObject parent, List<T> visualCollection) where T : Visual
-        {
-            int count = VisualTreeHelper.GetChildrenCount(parent);
-            for (int i = 0; i < count; i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T)
-                {
-                    visualCollection.Add(child as T);
-                }
-                else if (child != null)
-                {
-                    GetVisualChildCollection(child, visualCollection);
-                }
-            }
-        }
-
-        private void ColumnFilterControl_Loaded(object sender, RoutedEventArgs args)
-        {
-            return;
-            if (sender is ColumnFilterControl columnFilter)
-            {
-
-                columnFilter.CanUserFilter = CanUserFilter;
-                columnFilter.CanUserFreeze = CanUserFreeze;
-                columnFilter.CanUserGroup = CanUserGroup;
-                columnFilter.CanUserSelectDistinct = CanUserSelectDistinct;
-                columnFilter.Grid = this;
-            }
-        }
     }
 }
 
