@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CH_DataGrid\ValueConverter\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="CH_DataGrid\Images\Contains.png" />
     <Resource Include="CH_DataGrid\Images\EndsWith.png" />
     <Resource Include="CH_DataGrid\Images\Equal.png" />
