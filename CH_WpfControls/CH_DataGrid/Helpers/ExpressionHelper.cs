@@ -11,7 +11,7 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
 
         public static MethodCallExpression ToLower(MethodCallExpression stringProp)
         {
-            return Expression.Call(stringProp, typeof(string).GetMethod("ToLower", System.Type.EmptyTypes));
+            return Expression.Call(stringProp, typeof(string).GetMethod("ToLower", Type.EmptyTypes));
         }
 
         public static BinaryExpression NotNull(Expression prop)
