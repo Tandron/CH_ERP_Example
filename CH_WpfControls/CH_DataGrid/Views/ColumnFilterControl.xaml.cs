@@ -238,22 +238,28 @@ namespace CH_WpfControls.CH_DataGrid.Views
 
             if (cbOperation.SelectedItem is FilterOperationItem filterOperationItem)
             {
-                if (DistinctPropertyValues.Where(i => i.IsChecked).Count() > 0)
+                if (DistinctPropertyValues.Any(i => i.IsChecked))
                 {
                     foreach (var item in DistinctPropertyValues.Where(i => i.IsChecked))
                     {
-                        if (predicate == null)
-                            predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.Tag.ToString(), Grid.FilterType,
-                                FilterColumnInfo.PropertyType, filterOperationItem);
-                        else
-                            predicate = predicate.Or(GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.Tag.ToString(),
-                                Grid.FilterType, FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem));
+                        if (FilterColumnInfo.PropertyPath != null && FilterColumnInfo.PropertyType != null)
+                        {
+                            if (predicate == null)
+                            {
+                                predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.ToString(), Grid.FilterType,
+                                    FilterColumnInfo.PropertyType, filterOperationItem);
+                            }
+                            else
+                                predicate = predicate.Or(GenerateFilterPredicate(FilterColumnInfo.PropertyPath, item.ToString(),
+                                    Grid.FilterType, FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem));
+                        }
                     }
                 }
                 else
                 {
-                    predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, txtFilter.Text, Grid.FilterType,
-                        FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem);
+                    if (FilterColumnInfo.PropertyPath != null && FilterColumnInfo.PropertyType != null)
+                        predicate = GenerateFilterPredicate(FilterColumnInfo.PropertyPath, txtFilter.Text, Grid.FilterType,
+                            FilterColumnInfo.PropertyType.UnderlyingSystemType, filterOperationItem);
                 }
             }
             return predicate;
@@ -386,10 +392,8 @@ namespace CH_WpfControls.CH_DataGrid.Views
                         CheckboxComboItem item = new()
                         {
                             Description = GetFormattedValue(obj),
-                            Tag = obj,
                             IsChecked = false
                         };
-                        item.PropertyChanged += new PropertyChangedEventHandler(Filter_PropertyChanged);
                         DistinctPropertyValues.Add(item);
                     }
                     cbDistinctProperties.ItemsSource = DistinctPropertyValues;
@@ -410,11 +414,11 @@ namespace CH_WpfControls.CH_DataGrid.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void Filter_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void Filter_CheckedChanged(object sender, RoutedEventArgs args)
         {
-            if (sender is CheckboxComboItem checkboxComboItem)
+            if (sender is CheckBox checkBox && checkBox.DataContext is CheckboxComboItem checkboxComboItem)
             {
-                var list = DistinctPropertyValues.Where(i => i.IsChecked).ToList();
+                List<CheckboxComboItem> list = DistinctPropertyValues.Where(i => i.IsChecked).ToList();
 
                 if (list.Count > 0)
                 {
@@ -427,7 +431,8 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 {
                     txtFilter.Text = string.Empty;
                 }
-                cbOperation.IsEnabled = checkboxComboItem.IsChecked;
+                if (checkBox.IsChecked is bool isChecked)
+                    checkboxComboItem.IsChecked = isChecked;
                 FilterChanged?.Invoke(this);
             }
         }

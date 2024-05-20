@@ -262,12 +262,11 @@
                   Background="white" DropDownOpened="CbDistinctProperties_DropDownOpened" Style="{DynamicResource FilterComboBoxStyle}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Description,Mode=OneWay}"/>
+                    <CheckBox Content="{Binding Description,Mode=OneWay}" Checked="Filter_CheckedChanged"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
         <TextBox x:Name="txtFilter" Grid.Column="1" Visibility="Collapsed" BorderThickness="1" BorderBrush="Gray" KeyUp="TxtFilter_KeyUp"
-                 IsReadOnly="{Binding FilterReadOnly}"
                  VerticalAlignment="Stretch" Margin="0,0,0,0"  FontSize="12" />
     </Grid>
 </UserControl>

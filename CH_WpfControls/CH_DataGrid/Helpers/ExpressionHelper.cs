@@ -36,7 +36,7 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
             }
         }
 
-        public static Predicate<object>? GenerateEquals(MemberExpression prop, string value, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateEquals(MemberExpression prop, string value, Type type, ParameterExpression objParam)
         {
             BinaryExpression? equalExpresion = null;
 
@@ -65,10 +65,10 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
                 return new Predicate<object>(equalfunction.Compile());
             }
             else
-                return null;
+                return dVal => true;
         }
 
-        public static Predicate<object>? GenerateNotEquals(MemberExpression prop, string value, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateNotEquals(MemberExpression prop, string value, Type type, ParameterExpression objParam)
         {
             BinaryExpression? notEqualExpresion = null;
 
@@ -94,10 +94,10 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
                 return new Predicate<object>(equalfunction.Compile());
             }
             else
-                return null;
+                return dVal => true;
         }
 
-        public static Predicate<object>? GenerateGreaterThanEqual(MemberExpression prop, string value, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateGreaterThanEqual(MemberExpression prop, string value, Type type, ParameterExpression objParam)
         {
             object? typedInput = ValueConvertor(type, value);
 
@@ -110,11 +110,11 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
             }
             else
             {
-                return null;
+                return dVal => true;
             }
         }
 
-        public static Predicate<object>? GenerateLessThanEqual(MemberExpression prop, string value, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateLessThanEqual(MemberExpression prop, string value, Type type, ParameterExpression objParam)
         {
             object? typedInput = ValueConvertor(type, value);
 
@@ -127,10 +127,10 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
             }
             else
             {
-                return null;
+                return dVal => true;
             }
         }
-        public static Predicate<object>? GenerateLessThan(MemberExpression prop, string value, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateLessThan(MemberExpression prop, string value, Type type, ParameterExpression objParam)
         {
             object? typedInput = ValueConvertor(type, value);
 
@@ -143,10 +143,10 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
             }
             else
             {
-                return null;
+                return dVal => true;
             }
         }
-        public static Predicate<object>? GenerateGreaterThan(MemberExpression prop, string value, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateGreaterThan(MemberExpression prop, string value, Type type, ParameterExpression objParam)
         {
             object? typedInput = ValueConvertor(type, value);
 
@@ -159,11 +159,11 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
             }
             else
             {
-                return null;
+                return dVal => true;
             }
         }
 
-        public static Predicate<object>? GenerateBetweenValues(MemberExpression prop, string value1, string value2, Type type, ParameterExpression objParam)
+        public static Predicate<object> GenerateBetweenValues(MemberExpression prop, string value1, string value2, Type type, ParameterExpression objParam)
         {
             object? typedInput1 = ValueConvertor(type, value1);
             Predicate<object>? predicate1 = null;
@@ -190,7 +190,7 @@ namespace CH_WpfControls.CH_DataGrid.Helpers
             }
             else
             {
-                return null;
+                return dVal => true;
             }
         }
 

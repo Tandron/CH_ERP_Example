@@ -1,59 +1,23 @@
-﻿using System.ComponentModel;
-
-namespace CH_WpfControls.CH_DataGrid.Views
+﻿namespace CH_WpfControls.CH_DataGrid.Views
 {
-    public class CheckboxComboItem : INotifyPropertyChanged
+    public class CheckboxComboItem
     {
-        private bool _IsChecked;
+        private bool _isChecked = false;
+
         public bool IsChecked
         {
-            get { return _IsChecked; }
-            set
-            {
-                if (_IsChecked != value)
-                {
-                    _IsChecked = value;
-                    OnPropertChanged("IsChecked");
-                }
-            }
+            get => _isChecked;
+            set => _isChecked = value;
         }
 
-        private string _Description;
+        private string _description = "";
+
         public string Description
         {
-            get { return _Description; }
-            set
-            {
-                if (_Description != value)
-                {
-                    _Description = value;
-                    OnPropertChanged("Description");
-                }
-            }
+            get => _description;
+            set => _description = value;
         }
 
-        private object _Tag;
-        public object Tag
-        {
-            get { return _Tag; }
-            set
-            {
-                if (_Tag != value)
-                {
-                    _Tag = value;
-                    OnPropertChanged("Tag");
-                }
-            }
-        }
-        public override string ToString()
-        {
-            return Description;
-        }
-        private void OnPropertChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override string ToString()  => Description;
     }
 }
