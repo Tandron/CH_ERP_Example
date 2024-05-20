@@ -135,18 +135,20 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     Grid = cH_DataGrid;
             }
 
-            if (colHeader != null)
+            if (colHeader != null && colHeader.Column is DataGridBoundColumn dataGridBound)
                 column = colHeader.Column;
+            else
+                return;
 
             if (Grid == null)
                 return;
 
             CanUserSelectDistinct = Grid.CanUserSelectDistinct;
 
-            if (Grid.FilterType == null || column == null)
+            if (Grid.FilterType == null)
                 return;
 
-            FilterColumnInfo = new OptionColumnInfo(column, Grid.FilterType);
+            FilterColumnInfo = new OptionColumnInfo(dataGridBound, Grid.FilterType);
 
             Grid.RegisterOptionControl(this);
 
@@ -187,7 +189,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                 cbOperation.SelectedItem = FilterOperations[0];
             }
 
-            if (FilterColumnInfo != null && FilterColumnInfo.IsValid)
+            if (FilterColumnInfo != null && FilterColumnInfo.PropertyPath != null)
             {
                 foreach (var i in DistinctPropertyValues.Where(i => i.IsChecked))
                     i.IsChecked = false;
@@ -381,7 +383,7 @@ namespace CH_WpfControls.CH_DataGrid.Views
                     }
                     foreach (var obj in result)
                     {
-                        var item = new CheckboxComboItem()
+                        CheckboxComboItem item = new()
                         {
                             Description = GetFormattedValue(obj),
                             Tag = obj,

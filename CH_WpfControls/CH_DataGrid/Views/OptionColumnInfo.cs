@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Globalization;
+using System.Reflection;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace CH_WpfControls.CH_DataGrid.Views
@@ -6,49 +8,30 @@ namespace CH_WpfControls.CH_DataGrid.Views
     public class OptionColumnInfo
     {
         public DataGridColumn Column { get; set; }
-        public bool IsValid { get; set; }
-        public string PropertyPath { get; set; }
-        public IValueConverter Converter { get; set; }
-        public object ConverterParameter { get; set; }
-        public System.Globalization.CultureInfo ConverterCultureInfo { get; set; }
-        public Type PropertyType { get; set; }
+        public string? PropertyPath { get; set; }
+        public IValueConverter? Converter { get; set; }
+        public object? ConverterParameter { get; set; }
+        public CultureInfo? ConverterCultureInfo { get; set; }
+        public Type? PropertyType { get; set; }
 
-        public OptionColumnInfo(DataGridColumn column, Type boundObjectType)
+        public OptionColumnInfo(DataGridBoundColumn boundColumn, Type boundObjectType)
         {
-            if (column == null)
-                return;
-
-            Column = column;
-            var boundColumn = column as DataGridBoundColumn;
-            if (boundColumn != null)
+            Column = boundColumn;
+            if (boundColumn.Binding is Binding binding && !string.IsNullOrWhiteSpace(binding.Path.Path))
             {
-                Binding binding = boundColumn.Binding as Binding;
-                if (binding != null && !string.IsNullOrWhiteSpace(binding.Path.Path))
+                PropertyInfo? propInfo = null;
+
+                if (boundObjectType != null)
+                    propInfo = boundObjectType.GetProperty(binding.Path.Path);
+
+                if (propInfo != null)
                 {
-                    System.Reflection.PropertyInfo propInfo = null;
-                    if (boundObjectType != null)
-                        propInfo = boundObjectType.GetProperty(binding.Path.Path);
-
-                    if (propInfo != null)
-                    {
-                        IsValid = true;
-                        PropertyPath = binding.Path.Path;
-                        PropertyType = propInfo != null ? propInfo.PropertyType : typeof(string);
-                        Converter = binding.Converter;
-                        ConverterCultureInfo = binding.ConverterCulture;
-                        ConverterParameter = binding.ConverterParameter;
-                    }
-                    else
-                    {
-                        if (System.Diagnostics.Debugger.IsAttached && System.Diagnostics.Debugger.IsLogging())
-                            System.Diagnostics.Debug.WriteLine("Jib.WPF.Controls.DataGrid.JibGrid: BindingExpression path error: '{0}' property not found on '{1}'", binding.Path.Path, boundObjectType.ToString());
-                    }
+                    PropertyPath = binding.Path.Path;
+                    PropertyType = propInfo != null ? propInfo.PropertyType : typeof(string);
+                    Converter = binding.Converter;
+                    ConverterCultureInfo = binding.ConverterCulture;
+                    ConverterParameter = binding.ConverterParameter;
                 }
-            }
-            else if (column.SortMemberPath != null && column.SortMemberPath.Length > 0)
-            {
-                PropertyPath = column.SortMemberPath;
-                PropertyType = boundObjectType.GetProperty(column.SortMemberPath).PropertyType;
             }
         }
 
