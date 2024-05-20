@@ -141,7 +141,6 @@ namespace CH_WpfControls.CH_DataGrid.Views
             if (Grid == null)
                 return;
 
-            CanUserFilter = Grid.CanUserFilter;
             CanUserSelectDistinct = Grid.CanUserSelectDistinct;
 
             if (Grid.FilterType == null || column == null)

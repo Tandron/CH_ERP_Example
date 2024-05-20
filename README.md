@@ -8,9 +8,11 @@ CH_ERP_Example ist ein Beispiel, welches aus folgenden Teilen besteht.
     * Bestellungen
 * APP.NET Core RestAPI, was auf dem Server laufen würde.
 
-Später sind folgende 
-* WPF Client
-* APP.NET Core RestAPI
+Eventuell kommt später auch
+
+* WCF Service (Nur mit dem WPF Client)
+* Angular Client der mit dem ASP.NET Core RestAPI sich seine Informationen holt.
+
 
 Hier wie es zur Zeit noch aussieht:
 

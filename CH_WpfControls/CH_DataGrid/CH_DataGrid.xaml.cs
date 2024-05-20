@@ -60,49 +60,40 @@ namespace CH_WpfControls.CH_DataGrid
                         filter.ResetControl();
             }
         }
-        #endregion
 
+        public static readonly DependencyProperty CanUserSelectDistinctProperty =
+        DependencyProperty.Register("CanUserSelectDistinct", typeof(bool), typeof(CH_DataGrid),
+            new PropertyMetadata(true, new PropertyChangedCallback(OnCanUserSelectDistinctChanged)));
 
-        #region Filter Properties
-
-        [Bindable(false)]
-        [Category("Appearance")]
-        [DefaultValue("False")]
-        private bool _canUserSelectDistinct = false;
         public bool CanUserSelectDistinct
         {
-            get { return _canUserSelectDistinct; }
-            set
+            get => (bool)GetValue(CanUserSelectDistinctProperty);
+            set => SetValue(CanUserSelectDistinctProperty, value);
+        }
+
+        public static void OnCanUserSelectDistinctChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            if (sender is CH_DataGrid cH_DataGrid && args.NewValue is bool newCanSelect)
             {
-                if (_canUserSelectDistinct != value)
+                if (newCanSelect != args.OldValue is bool)
                 {
-                    _canUserSelectDistinct = value;
-                    OnPropertyChanged("CanUserSelectDistinct");
-                    foreach (var optionControl in Filters)
-                        optionControl.CanUserSelectDistinct = _canUserSelectDistinct;
+                    foreach (var optionControl in cH_DataGrid.Filters)
+                        optionControl.CanUserSelectDistinct = newCanSelect;
                 }
             }
         }
 
-        [Bindable(false)]
-        [Category("Appearance")]
-        [DefaultValue("True")]
-        private bool _canUserFilter = true;
+        public static readonly DependencyProperty CanUserFilterProperty =
+            DependencyProperty.Register("CanUserFilter", typeof(bool), typeof(CH_DataGrid));
+
         public bool CanUserFilter
         {
-            get { return _canUserFilter; }
-            set
-            {
-                if (_canUserFilter != value)
-                {
-                    _canUserFilter = value;
-                    OnPropertyChanged("CanUserFilter");
-                    foreach (var optionControl in Filters)
-                        optionControl.CanUserFilter = _canUserFilter;
-                }
-            }
+            get => (bool)GetValue(CanUserFilterProperty);
+            set => SetValue(CanUserFilterProperty, value);
         }
-        #endregion Filter Properties
+
+        #endregion
+
         public CH_DataGrid()
         {
             _filterHandler = Filter_PropertyChanged;
@@ -133,12 +124,24 @@ namespace CH_WpfControls.CH_DataGrid
         private void Filter_PropertyChanged(ColumnFilterControl columnFilter)
         {
             Predicate<object>? predicate = null;
+
             foreach (var filter in Filters)
+            {
+
                 if (filter.HasPredicate)
                     if (predicate == null)
                         predicate = filter.GeneratePredicate();
                     else
-                        predicate = predicate.And(filter.GeneratePredicate());
+                    {
+                        Predicate<object>? genPred = filter.GeneratePredicate();
+
+                        if (genPred != null)
+                            predicate = predicate.And(genPred);
+                    }
+            }
+            if (predicate == null)
+                return;
+
             bool canContinue = true;
             var args = new CancelableFilterChangedEventArgs(predicate);
             if (BeforeFilterChanged != null && !IsResetting)
@@ -155,8 +158,7 @@ namespace CH_WpfControls.CH_DataGrid
                     view.CommitNew();
                 if (CollectionView != null)
                     CollectionView.Filter = predicate;
-                if (AfterFilterChanged != null)
-                    AfterFilterChanged(this, new FilterChangedEventArgs(predicate));
+                AfterFilterChanged?.Invoke(this, new FilterChangedEventArgs(predicate));
             }
             else
             {
@@ -177,15 +179,27 @@ namespace CH_WpfControls.CH_DataGrid
 
         public void FirePredicationGeneration()
         {
-            Predicate<object> predicate = null;
-            foreach (var filter in Filters)
+            Predicate<object>? predicate = null;
+
+            foreach (ColumnFilterControl filter in Filters)
+            {
                 if (filter.HasPredicate)
                     if (predicate == null)
                         predicate = filter.GeneratePredicate();
                     else
-                        predicate = predicate.And(filter.GeneratePredicate());
+                    {
+                        Predicate<object>? genPred = filter.GeneratePredicate();
+
+                        if (genPred != null)
+                            predicate = predicate.And(genPred);
+                    }
+            }
+            if (predicate == null)
+                return;
+
             bool canContinue = true;
             CancelableFilterChangedEventArgs args = new(predicate);
+
             if (BeforeFilterChanged != null && !IsResetting)
             {
                 BeforeFilterChanged(this, args);
@@ -200,8 +214,7 @@ namespace CH_WpfControls.CH_DataGrid
                     view.CommitNew();
                 if (CollectionView != null)
                     CollectionView.Filter = predicate;
-                if (AfterFilterChanged != null)
-                    AfterFilterChanged(this, new FilterChangedEventArgs(predicate));
+                AfterFilterChanged?.Invoke(this, new FilterChangedEventArgs(predicate));
             }
             else
             {
@@ -218,9 +231,7 @@ namespace CH_WpfControls.CH_DataGrid
             {
                 foreach (var groupedCol in CollectionView.GroupDescriptions)
                 {
-                    PropertyGroupDescription? propertyGroup = groupedCol as PropertyGroupDescription;
-
-                    if (propertyGroup != null && propertyGroup.PropertyName == boundPropertyName)
+                    if (groupedCol is PropertyGroupDescription propertyGroup && propertyGroup.PropertyName == boundPropertyName)
                         return;
                 }
 
@@ -234,9 +245,7 @@ namespace CH_WpfControls.CH_DataGrid
             {
                 foreach (var g in CollectionView.GroupDescriptions)
                 {
-                    var pgd = g as PropertyGroupDescription;
-
-                    if (pgd != null)
+                    if (g is PropertyGroupDescription pgd)
                         if (pgd.PropertyName == boundPropertyName)
                             return true;
                 }
@@ -249,13 +258,11 @@ namespace CH_WpfControls.CH_DataGrid
         {
             if (!string.IsNullOrWhiteSpace(boundPropertyName) && CollectionView != null && CollectionView.GroupDescriptions != null)
             {
-                PropertyGroupDescription selectedGroup = null;
+                PropertyGroupDescription? selectedGroup = null;
 
                 foreach (var groupedCol in CollectionView.GroupDescriptions)
                 {
-                    var propertyGroup = groupedCol as PropertyGroupDescription;
-
-                    if (propertyGroup != null && propertyGroup.PropertyName == boundPropertyName)
+                    if (groupedCol is PropertyGroupDescription propertyGroup && propertyGroup.PropertyName == boundPropertyName)
                     {
                         selectedGroup = propertyGroup;
                     }
@@ -342,18 +349,6 @@ namespace CH_WpfControls.CH_DataGrid
             foreach (var optionControl in Filters)
                 optionControl.ResetDistinctList();
         }
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }
 
